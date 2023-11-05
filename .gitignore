@@ -1,5 +1,3 @@
 # ignore state files
 *state*
 
-# ignore terraform binary file
-terrafrom
