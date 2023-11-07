@@ -1,4 +1,3 @@
-#test
 # Configure the AWS Provider
 terraform {
   required_providers {
@@ -14,11 +13,21 @@ provider "aws" {
   region = "us-east-1"
 }
 
+# Variables
+variable "dev_subnet_cider_block" {
+  description = "Development subnet cider block"
+}
+
+variable "environment" {
+  description = "Development environment name"
+}
+
+
 # Create a VPC
 resource "aws_vpc" "development-vpc" {
   cidr_block = "10.0.0.0/16"
   tags = {
-    Name = "main_vpc"
+    Name = "${var.environment}-prv-vpc"
   }
 }
 
@@ -26,8 +35,11 @@ resource "aws_vpc" "development-vpc" {
 resource "aws_subnet" "dev-subnet-1" {
   
   vpc_id     = aws_vpc.development-vpc.id
-  cidr_block = "10.0.10.0/24"
+  cidr_block = var.dev_subnet_cider_block
   availability_zone = "us-east-1a"
+  tags = {
+    Name = "${var.environment}-Subnet-1"
+  }
 }
 
 # Fetch the default VPC in order to create a subnet in it
@@ -41,7 +53,7 @@ resource "aws_subnet" "dev-subnet-2" {
   cidr_block = "172.31.30.0/24"
   availability_zone =  "us-east-1a"
   tags = {
-    Name = "default_dev_subnet"
+    Name = "default_subnet"
   }
 }
 
