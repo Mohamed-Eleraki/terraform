@@ -44,3 +44,15 @@ resource "aws_subnet" "dev-subnet-2" {
     Name = "default_dev_subnet"
   }
 }
+
+output "development-vpc" {
+  value = aws_vpc.development-vpc.id
+}
+
+output "development-subnet" {
+  value = aws_subnet.dev-subnet-1.id
+}
+
+output "existing-vpc" {
+  value = aws_subnet.dev-subnet-2.id
+}
