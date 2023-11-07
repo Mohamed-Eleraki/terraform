@@ -1,3 +1,7 @@
 # ignore state files
 *state*
 
+# ignore providers, and source binary
+.terraform/
+terraform
+.terraform.lock.hcl
