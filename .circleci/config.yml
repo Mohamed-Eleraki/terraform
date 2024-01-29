@@ -11,7 +11,6 @@ jobs:
     steps:
       - checkout
       - aws-cli/setup
-      
       - run: 
           name: apply terraform code
           command: |
@@ -40,13 +39,13 @@ jobs:
 workflows:
   apply-terrafrom-workflow:
     jobs:
-      #- aws-build
-#
-      #- hold:  # This is the approval step
-      #    type: approval
-      #    requires:
-      #      - aws-build
-#
-      - aws-destroy
-         # requires : 
-         #   - hold
+      - aws-build
+
+      - hold:  # This is the approval step
+          type: approval
+          requires:
+            - aws-build
+
+      - aws-destroy:
+          requires : 
+            - hold
