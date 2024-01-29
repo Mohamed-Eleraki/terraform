@@ -36,9 +36,9 @@ jobs:
             cd /home/circleci/project/AWS_Demo/01-TransitGateWay
             ./terraform destroy -var-file="/home/circleci/project/AWS_Demo/01-TransitGateWay/terraform-dev.tfvars" -auto-approve
 
-workflows:
-  apply-terrafrom-workflow:
-    jobs:
+#workflows:
+#  apply-terrafrom-workflow:
+#    jobs:
 #      - aws-build
 #
 #      - hold:  # This is the approval step
@@ -46,6 +46,6 @@ workflows:
 #          requires:
 #            - aws-build
 #
-      - aws-destroy
+#      - aws-destroy
 #          requires : 
 #            - hold

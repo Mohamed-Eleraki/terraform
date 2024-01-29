@@ -61,10 +61,19 @@ resource "aws_internet_gateway" "igw-1" {
 resource "aws_subnet" "subnet-1" {
   vpc_id = aws_vpc.vpc-1.id
   cidr_block = var.dev_subnet1_cidr_block
-
+  availability_zone = "us-east-1a"
   tags = {
     Name = "${var.environment}-subnet-1"
   }
+}
+
+# Create ec2-1 in vpc-1
+resource "aws_instance" "ec2-1" {
+  ami = "ami-0a3c3a20c09d6f377"
+  tags = {
+    Name = "${var.environment}-ec2-1"
+  }
+
 }
 
 # Create a VPC-2
@@ -87,10 +96,19 @@ resource "aws_internet_gateway" "igw-2" {
 resource "aws_subnet" "subnet-2" {
   vpc_id = aws_vpc.vpc-1.id
   cidr_block = var.dev_subnet2_cidr_block
-
+  availability_zone = "us-east-1e"
   tags = {
     Name = "${var.environment}-subnet-2"
   }
+}
+
+# Create ec2-2 in vpc-2
+resource "aws_instance" "ec2-2" {
+  ami = "ami-0a3c3a20c09d6f377"
+  tags = {
+    Name = "${var.environment}-ec2-2"
+  }
+
 }
 
 # Create a VPC-3
@@ -113,8 +131,17 @@ resource "aws_internet_gateway" "igw-3" {
 resource "aws_subnet" "subnet-3" {
   vpc_id = aws_vpc.vpc-1.id
   cidr_block = var.dev_subnet3_cidr_block
-
+  availability_zone = "us-east-1c"
   tags = {
     Name = "${var.environment}-subnet3"
   }
+}
+
+# Create ec2-3 in vpc-3
+resource "aws_instance" "ec2-3" {
+  ami = "ami-0a3c3a20c09d6f377"
+  tags = {
+    Name = "${var.environment}-ec2-3"
+  }
+
 }
