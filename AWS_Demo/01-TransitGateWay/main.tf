@@ -15,12 +15,18 @@ provider "aws" {
 
 # Variable
 variable "dev_vpc1_cidr_block" {
-    description = "Development step cider block"
+    description = "Development step cidr_block"
 }
 
-variable "dev_vpc2_cidr_block" {}
-variable "dev_vpc3_cidr_block" {}
-variable "environment" {}
+variable "dev_vpc2_cidr_block" {
+    description = "Development step cidr_block"
+}
+variable "dev_vpc3_cidr_block" {
+    description = "Development step cidr_block"
+}
+variable "environment" {
+    description = "Development step Name"
+}
 
 # Create a VPC-1
 resource "aws_vpc" "vpc-1" {
