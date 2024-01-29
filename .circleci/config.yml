@@ -15,8 +15,10 @@ jobs:
       - run: 
           name: apply terraform code
           command: |
+            pwd
             cd /home/circleci/project/AWS_Demo/01-TransitGateWay
-            ./terraform init
+            pwd
+            .\terraform init
             ./terraform apply -auto-approve
 
 
