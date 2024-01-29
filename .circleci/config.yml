@@ -18,7 +18,7 @@ jobs:
             cp /home/circleci/project/terraform /home/circleci/project/AWS_Demo/01-TransitGateWay
             cd /home/circleci/project/AWS_Demo/01-TransitGateWay
             ./terraform init
-            ./terraform apply -var-file="/home/circleci/project/AWS_Demo/01-TransitGateWay/terrafrom-dev.tfvars" -auto-approve
+            ./terraform apply -var-file="/home/circleci/project/AWS_Demo/01-TransitGateWay/terraform-dev.tfvars" -auto-approve
 
 
 workflows:
