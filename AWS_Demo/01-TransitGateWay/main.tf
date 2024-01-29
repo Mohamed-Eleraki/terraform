@@ -19,7 +19,8 @@ variable "dev_vpc1_cider_block" {
 }
 
 variable "dev_vpc2_cider_block" {}
-
+variable "dev_vpc3_cider_block" {}
+variable "environment" {}
 
 # Create a VPC-1
 resource "aws_vpc" "vpc-1" {
