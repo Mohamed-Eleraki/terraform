@@ -47,6 +47,6 @@ workflows:
       #    requires:
       #      - aws-build
 #
-      - aws-destroy:
+      - aws-destroy
          # requires : 
          #   - hold
