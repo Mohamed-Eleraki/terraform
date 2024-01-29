@@ -46,7 +46,7 @@ workflows:
           type: approval
           requires:
             - aws-build
-            
+
       - aws-destroy:
           requires : 
-            - aws-build
+            - hold
