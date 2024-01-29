@@ -40,13 +40,13 @@ jobs:
 workflows:
   apply-terrafrom-workflow:
     jobs:
-      - aws-build
-
-      - hold:  # This is the approval step
-          type: approval
-          requires:
-            - aws-build
-
+      #- aws-build
+#
+      #- hold:  # This is the approval step
+      #    type: approval
+      #    requires:
+      #      - aws-build
+#
       - aws-destroy:
-          requires : 
-            - hold
+         # requires : 
+         #   - hold
