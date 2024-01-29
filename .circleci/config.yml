@@ -19,10 +19,34 @@ jobs:
             cd /home/circleci/project/AWS_Demo/01-TransitGateWay
             ./terraform init
             ./terraform apply -var-file="/home/circleci/project/AWS_Demo/01-TransitGateWay/terraform-dev.tfvars" -auto-approve
-            ./terraform destroy -auto-approve
 
+
+
+  aws-destroy:
+    docker:
+      - image: cimg/base:stable
+
+    steps:
+      - checkout
+      - aws-cli/setup
+      
+      - run: 
+          name: destroy terraform code
+          command: |
+            cp /home/circleci/project/terraform /home/circleci/project/AWS_Demo/01-TransitGateWay
+            cd /home/circleci/project/AWS_Demo/01-TransitGateWay
+            ./terraform destroy -auto-approve
 
 workflows:
   apply-terrafrom-workflow:
     jobs:
       - aws-build
+
+      - hold:  # This is the approval step
+          type: approval
+          requires:
+            - aws-build
+            
+      - aws-destroy:
+          requires : 
+            - aws-build
