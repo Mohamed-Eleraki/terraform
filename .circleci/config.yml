@@ -14,9 +14,9 @@ jobs:
       - run: 
           name: apply terraform code
           command: |
-            pwd
-            ls 
-
+            cd AWS_Demo\01-TransitGateWay
+            terraform init
+            terraform apply -auto-approve
 
 
 workflows:
