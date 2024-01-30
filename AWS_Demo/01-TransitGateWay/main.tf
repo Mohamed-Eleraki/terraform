@@ -100,17 +100,59 @@ resource "aws_route_table_association" "rt-ass-1" {
 }
 
 
+
+# Create a key pair
+resource "aws_key_pair" "kp-1" {
+  key_name = "server-key"
+  public_key = "${file("~/.ssh/id_rsa.pub")}"
+}
+
+
+# Create Security group
+resource "aws_security_group" "secgrp-1" {
+  name        = "secgrp-1"
+  description = "Allow SSH inbound traffic and all outbound traffic"
+  vpc_id      = aws_vpc.vpc-1.id
+
+  tags = {
+    Name = "secgrp-1"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_SSH-1" {
+  security_group_id = aws_security_group.secgrp-1.id
+  #cidr_ipv4         = aws_vpc.vpc-2.cidr_block
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port         = 22
+  ip_protocol       = "tcp"
+  to_port           = 22
+}
+
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4-1" {
+  security_group_id = aws_security_group.secgrp-1.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+
+
 # Create ec2-1 in vpc-1
 resource "aws_instance" "ec2-1" {
   ami = "ami-0a3c3a20c09d6f377"
   instance_type = "t2.micro"
   associate_public_ip_address = true
   subnet_id = aws_subnet.subnet-1.id
+  key_name = aws_key_pair.kp-1.key_name
+  vpc_security_group_ids = [aws_security_group.secgrp-1.id]
   tags = {
     Name = "${var.environment}-ec2-1"
   }
 
 }
+
+
+
 
 
 # Create a VPC-2 | VPC-2 Configurations
@@ -168,12 +210,46 @@ resource "aws_route_table_association" "rt-ass-2" {
   route_table_id = aws_route_table.rt-2.id
 }
 
+
+
+# Create Security group for vpc-2
+resource "aws_security_group" "secgrp-2" {
+  name        = "secgrp-2"
+  description = "Allow SSH inbound traffic and all outbound traffic"
+  vpc_id      = aws_vpc.vpc-2.id
+
+  tags = {
+    Name = "secgrp-2"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_SSH-2" {
+  security_group_id = aws_security_group.secgrp-2.id
+  #cidr_ipv4         = aws_vpc.vpc-2.cidr_block
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port         = 22
+  ip_protocol       = "tcp"
+  to_port           = 22
+}
+
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4-2" {
+  security_group_id = aws_security_group.secgrp-2.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+
+
 # Create ec2-2 in vpc-2
 resource "aws_instance" "ec2-2" {
   ami = "ami-0a3c3a20c09d6f377"
   instance_type = "t2.micro"
   associate_public_ip_address = true
   subnet_id = aws_subnet.subnet-2.id
+  key_name = aws_key_pair.kp-1.key_name
+  vpc_security_group_ids = [aws_security_group.secgrp-2.id]
+
   tags = {
     Name = "${var.environment}-ec2-2"
   }
@@ -240,12 +316,47 @@ resource "aws_route_table_association" "rt-ass-3" {
 }
 
 
+
+# Create Security group for vpc-2
+resource "aws_security_group" "secgrp-3" {
+  name        = "secgrp-3"
+  description = "Allow SSH inbound traffic and all outbound traffic"
+  vpc_id      = aws_vpc.vpc-3.id
+
+  tags = {
+    Name = "secgrp-3"
+  }
+}
+
+resource "aws_vpc_security_group_ingress_rule" "allow_SSH-3" {
+  security_group_id = aws_security_group.secgrp-3.id
+  #cidr_ipv4         = aws_vpc.vpc-2.cidr_block
+  cidr_ipv4 = "0.0.0.0/0"
+  from_port         = 22
+  ip_protocol       = "tcp"
+  to_port           = 22
+}
+
+
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4-3" {
+  security_group_id = aws_security_group.secgrp-3.id
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "-1" # semantically equivalent to all ports
+}
+
+
+
+
+
+
 # Create ec2-3 in vpc-3
 resource "aws_instance" "ec2-3" {
   ami = "ami-0a3c3a20c09d6f377"
   instance_type = "t2.micro"
   associate_public_ip_address = true
   subnet_id = aws_subnet.subnet-3.id
+  key_name = aws_key_pair.kp-1.key_name
+  vpc_security_group_ids = [aws_security_group.secgrp-3.id]
   tags = {
     Name = "${var.environment}-ec2-3"
   }
