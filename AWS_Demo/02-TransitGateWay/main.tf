@@ -68,7 +68,7 @@ resource "aws_ram_resource_association" "RAM-association" {
 }
 
 resource "aws_ram_principal_association" "RAM-Prencipal_association" {
-  principal = "891377122503" # Account ID
+  principal = "89132503" # Account ID
   resource_share_arn = aws_ram_resource_share.RAM-1.arn
 }
 
