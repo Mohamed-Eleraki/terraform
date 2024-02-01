@@ -97,38 +97,67 @@ resource "aws_ec2_transit_gateway_route" "tgw-rt-vpc1" {
 
 }
 
+
 resource "aws_ec2_transit_gateway_route" "tgw-rt-vpc2" {
   destination_cidr_block = "20.0.0.0/16"
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw-rt-1.id
   transit_gateway_attachment_id = aws_ec2_transit_gateway_vpc_attachment.tgw-attachment-vpc2.id
 }
 
+# Create and internet gateway to allow internet for ec2s
+resource "aws_internet_gateway" "igw-1" {
+  vpc_id = aws_vpc.vpc-1.id
+
+  tags = {
+    Name = "${var.environment}-igw-vpc-1"
+  }
+}
+
+resource "aws_internet_gateway" "igw-2" {
+  vpc_id = aws_vpc.vpc-2.id
+
+  tags = {
+    Name = "${var.environment}-igw-vpc-2"
+  }
+}
+
 # VPCs Route Tables
 resource "aws_route_table" "rt-vpc1" {
   vpc_id = aws_vpc.vpc-1.id
-
-  route {
-    cidr_block = "0.0.0.0/0"
-    transit_gateway_id = aws_ec2_transit_gateway.tgw.id
-  }
+#  route {
+#    cidr_block = "0.0.0.0/0"
+#    gateway_id = aws_internet_gateway.igw-1.id
+#  }
 
   tags = {
     Name = "${var.environment}-rt-vpc1"
   }
 }
 
+
+# Route table association
+resource "aws_route_table_association" "rt-association-subnet1" {
+  subnet_id      = aws_subnet.subnet-1.id
+  route_table_id = aws_route_table.rt-vpc1.id
+}
+
 resource "aws_route_table" "rt-vpc2" {
   vpc_id = aws_vpc.vpc-2.id
-  route {
-    cidr_block = "0.0.0.0/0"
-    transit_gateway_id = aws_ec2_transit_gateway.tgw.id
-  }
 
+ # route {
+ #   cidr_block = "0.0.0.0/0"
+ #   gateway_id = aws_internet_gateway.igw-2.id
+ # }
     tags = {
     Name = "${var.environment}-rt-vpc2"
   }
 }
 
+# Route table association
+resource "aws_route_table_association" "rt-association-subnet2" {
+  subnet_id      = aws_subnet.subnet-2.id
+  route_table_id = aws_route_table.rt-vpc2.id
+}
 
 # Security Groups for the instances
 resource "aws_security_group" "secGrp-01" {
@@ -208,3 +237,5 @@ resource "aws_instance" "ec2-02" {
     Name = "${var.environment}-ec2-02"
   }
 }
+
+
