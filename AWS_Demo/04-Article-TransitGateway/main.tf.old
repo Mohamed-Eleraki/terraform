@@ -1,0 +1,38 @@
+# Configure aws provider
+terraform {
+    required_providers {
+        aws = {
+            source = "hashicorp/aws"
+            version = "~> 5.0"
+        }
+    }
+}
+
+# Configure aws provider
+provider "aws" {
+    region = "us-east-1"
+}
+
+
+# Variable Section
+variable "environment" {}
+
+
+# Resources Section
+
+# Create 3 VPC's
+resource "aws_vpc" "vpc-1" {
+  count = length(local.vpc_cidr_blocks)
+
+  cidr_block = local.vpc_cidr_blocks[count.index]
+
+  tags = {
+    Name = format("${var.environment}-%d", count.index + 1) # Naming each VPC
+  }
+}
+
+resource "aws_subnet" "subnet-1" {
+    count       = length(local.vpc_cidr_blocks)
+    vpc_id      = aws_vpc.vpc-1[count.index].id
+    cidr_block  =   
+}
