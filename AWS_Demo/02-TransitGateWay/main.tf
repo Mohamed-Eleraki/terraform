@@ -45,7 +45,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "example_vpc_attachment" {
 }
 
 
-# Create Transit Gateway Route Table for tgw-1
+# Create Transit Gateway Route for tgw-1
 resource "aws_ec2_transit_gateway_route" "example_route" {
   destination_cidr_block         = "0.0.0.0/0"
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.example.id
