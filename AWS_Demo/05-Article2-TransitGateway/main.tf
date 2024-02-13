@@ -111,7 +111,7 @@ resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-1" {
 resource "aws_instance" "ec2-1" {
   ami   = "ami-0a3c3a20c09d6f377"
   instance_type = "t2.micro"
-  associate_public_ip_address   = true # only for test
+  #associate_public_ip_address   = true
   subnet_id = aws_subnet.subnet-1.id
   vpc_security_group_ids = [aws_security_group.secgrp-1.id]
   key_name = aws_key_pair.kp-1.key_name
@@ -193,7 +193,7 @@ resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-2" {
 resource "aws_instance" "ec2-2" {
   ami   = "ami-0a3c3a20c09d6f377"
   instance_type = "t2.micro"
-  associate_public_ip_address   = true # only for test
+  #associate_public_ip_address   = true
   subnet_id = aws_subnet.subnet-2.id
   vpc_security_group_ids = [aws_security_group.secgrp-2.id]
   key_name = aws_key_pair.kp-1.key_name  # use the same key
@@ -411,3 +411,18 @@ resource "aws_ec2_transit_gateway_route" "tgw-route-subnet-4-all" {
   destination_cidr_block          = "0.0.0.0/0"
   transit_gateway_attachment_id   = aws_ec2_transit_gateway_vpc_attachment.tgw-att-4.id
 }
+
+/*
+# Create an endpoint to connect on ec2 machine - just for test purose
+resource "aws_vpc_endpoint" "endpoint-vpc1" {
+  vpc_id       = aws_vpc.vpc-1.id
+  service_name = "com.amazonaws.us-east-1.ec2"
+  #security_group_ids = [aws_security_group.secgrp-1.id]
+  #subnet_ids        = [aws_subnet.subnet-1.id]
+  #vpc_endpoint_type = "Interface"
+
+  tags = {
+    Environment = "${var.environment}-endpoint-vpc1"
+  }
+}
+*/
