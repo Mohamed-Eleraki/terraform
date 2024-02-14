@@ -100,7 +100,7 @@ resource "aws_vpc_security_group_egress_rule" "outbound-secgrp-1" {
 # Create ingress rules for secgrp-1 for VPC-1
 resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-1" {
   security_group_id = aws_security_group.secgrp-1.id
-  cidr_ipv4 = "0.0.0.0/0"
+  cidr_ipv4 = "0.0.0.0/0"  # do Not apply such subnet in production, just for test
   ip_protocol   = "tcp"
   from_port = 22
   to_port   = 22
@@ -182,7 +182,7 @@ resource "aws_vpc_security_group_egress_rule" "outbound-secgrp-2" {
 # Create ingress rules for secgrp-2 for VPC-2
 resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-2" {
   security_group_id = aws_security_group.secgrp-2.id
-  cidr_ipv4 = "0.0.0.0/0"
+  cidr_ipv4 = "0.0.0.0/0"  # do not apply such subnet in production, just for test
   ip_protocol   = "tcp"
   from_port = 22
   to_port   = 22
@@ -228,7 +228,7 @@ resource "aws_internet_gateway" "igw" {
 resource "aws_subnet" "subnet-4" {
   vpc_id = aws_vpc.vpc-3.id
   cidr_block = var.dev_subnet4_cidr_block
-  availability_zone = "us-east-1c"
+  availability_zone = "us-east-1c"  # subnet 3 & 4 must be at the same zone
 
   tags = {
     Name = "${var.environment}-subnet-4-Pub"
@@ -279,7 +279,7 @@ resource "aws_nat_gateway" "nat-gw" {
 resource "aws_subnet" "subnet-3" {
   vpc_id = aws_vpc.vpc-3.id
   cidr_block = var.dev_subnet3_cidr_block
-  availability_zone = "us-east-1c"
+  availability_zone = "us-east-1c"  # subnet 3 & 4 must be at the same zone
 
   tags = {
     Name = "${var.environment}-subnet-3-Prv"
@@ -331,7 +331,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-att-1" {
   }
 }
 
-# Associate the route table to transitgateway
+# Associate the route table to attachment
 resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-ass-01" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw-att-1.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw-rtb.id
@@ -349,7 +349,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-att-2" {
   }
 }
 
-# Associate the route table to transitgateway
+# Associate the route table to attachment
 resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-ass-02" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw-att-2.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw-rtb.id
@@ -368,7 +368,7 @@ resource "aws_ec2_transit_gateway_vpc_attachment" "tgw-att-4" {
   }
 }
 
-# Associate the route table to transitgateway
+# Associate the route table to attachment
 resource "aws_ec2_transit_gateway_route_table_association" "tgw-rt-ass-03" {
   transit_gateway_attachment_id  = aws_ec2_transit_gateway_vpc_attachment.tgw-att-4.id
   transit_gateway_route_table_id = aws_ec2_transit_gateway_route_table.tgw-rtb.id
