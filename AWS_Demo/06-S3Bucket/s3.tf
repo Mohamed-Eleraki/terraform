@@ -34,6 +34,7 @@ resource "aws_kms_key" "s3-01-key" {
   deletion_window_in_days = 10
 }
 
+/*
 resource "aws_s3_bucket_server_side_encryption_configuration" "s3-01-encryption-configs" {
   bucket = aws_s3_bucket.s3-01.id
 
@@ -44,15 +45,16 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3-01-encryption-
     }
   }
 }
+*/
 
 resource "aws_s3_bucket_versioning" "s3-01-versioning-configs" {
   bucket = aws_s3_bucket.s3-01.id
   versioning_configuration {
-    status = "disabled"
+    status = "Disabled"
   }
 }
 
-
+/*
 resource "aws_s3_bucket_object_lock_configuration" "s3-01-obj-lock" {
   bucket = aws_s3_bucket.s3-01.id
 
@@ -66,7 +68,7 @@ resource "aws_s3_bucket_object_lock_configuration" "s3-01-obj-lock" {
   }
   # Please note, that by using the resource, Object Lock can be enabled/disabled without destroying 
   # and recreating the bucket.
-}
+} */
 
 resource "aws_s3_bucket_public_access_block" "s3-01-dis-pubacc" {
   bucket = aws_s3_bucket.s3-01.id

@@ -50,6 +50,7 @@ resource "aws_vpc" "vpc-1" {
 resource "aws_subnet" "subnet-1" {
   vpc_id     = aws_vpc.vpc-1.id
   cidr_block = var.dev_subnet1_cidr_block
+  availability_zone = "us-east-1c"
 
   tags = {
     Name = "${var.environment}-subnet-1"
@@ -109,18 +110,24 @@ resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-1" {
 
 # Create EC2-1 for VPC-1
 resource "aws_instance" "ec2-1" {
-  ami           = "ami-0a3c3a20c09d6f377"
-  instance_type = "t2.micro"
+  ami           = "ami-0440d3b780d96b29d"
+  instance_type = "m5.large"  # this instance type allow Serial port connection
   #associate_public_ip_address   = true
   subnet_id              = aws_subnet.subnet-1.id
   vpc_security_group_ids = [aws_security_group.secgrp-1.id]
   key_name               = aws_key_pair.kp-1.key_name
+
+  iam_instance_profile = aws_iam_instance_profile.s3_full_access_profile_01.name
 
   tags = {
     Name = "${var.environment}-EC2-1"
   }
 }
 
+resource "aws_iam_instance_profile" "s3_full_access_profile_01" {
+  name = "S3FullAccessProfile01"
+  role = aws_iam_role.s3_full_access_role_01.name
+}
 
 
 ################
@@ -138,6 +145,7 @@ resource "aws_vpc" "vpc-2" {
 resource "aws_subnet" "subnet-2" {
   vpc_id     = aws_vpc.vpc-2.id
   cidr_block = var.dev_subnet2_cidr_block
+  availability_zone = "us-east-1c"
 
   tags = {
     Name = "${var.environment}-subnet-2"
@@ -191,18 +199,24 @@ resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-2" {
 
 # Create EC2-2 for VPC-2
 resource "aws_instance" "ec2-2" {
-  ami           = "ami-0a3c3a20c09d6f377"
-  instance_type = "t2.micro"
+  ami           = "ami-0440d3b780d96b29d"
+  instance_type = "m5.large"  # this instance type allow Serial port connection
   #associate_public_ip_address   = true
   subnet_id              = aws_subnet.subnet-2.id
   vpc_security_group_ids = [aws_security_group.secgrp-2.id]
   key_name               = aws_key_pair.kp-1.key_name # use the same key
 
+  iam_instance_profile = aws_iam_instance_profile.s3_full_access_profile_02.name
+  
   tags = {
     Name = "${var.environment}-EC2-2"
   }
 }
 
+resource "aws_iam_instance_profile" "s3_full_access_profile_02" {
+  name = "S3FullAccessProfile02"
+  role = aws_iam_role.s3_full_access_role_02.name
+}
 
 ################
 # Create VPC-3 #
