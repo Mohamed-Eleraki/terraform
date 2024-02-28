@@ -1,13 +1,13 @@
 resource "aws_s3_bucket" "s3-01" {
-    bucket = "eraki-s3-dev-01"
+  bucket = "eraki-s3-dev-01"
 
-    force_destroy = false
-    object_lock_enabled = false
+  force_destroy       = false
+  object_lock_enabled = false
 
-    tags    =   {
-        Name = "eraki-s3-dev-01-Tag"
-        Environment = "Dev"
-    }
+  tags = {
+    Name        = "eraki-s3-dev-01-Tag"
+    Environment = "Dev"
+  }
 }
 
 resource "aws_s3_bucket_ownership_controls" "s3-01-ownership" {
@@ -24,7 +24,7 @@ resource "aws_s3_bucket_acl" "s3-01-acl" {
   depends_on = [aws_s3_bucket_ownership_controls.s3-01-ownership]
 
   bucket = aws_s3_bucket.s3-01.id
-  acl    = "private"  # only the owner of the S3 bucket will have access to list or 
+  acl    = "private" # only the owner of the S3 bucket will have access to list or 
   # upload objects in the bucket.
   # https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/s3_bucket_acl
 }

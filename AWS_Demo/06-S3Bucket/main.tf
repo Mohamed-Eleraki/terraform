@@ -48,8 +48,8 @@ resource "aws_vpc" "vpc-1" {
 
 # create Subnet-1 for VPC-1
 resource "aws_subnet" "subnet-1" {
-  vpc_id     = aws_vpc.vpc-1.id
-  cidr_block = var.dev_subnet1_cidr_block
+  vpc_id            = aws_vpc.vpc-1.id
+  cidr_block        = var.dev_subnet1_cidr_block
   availability_zone = "us-east-1c"
 
   tags = {
@@ -110,8 +110,10 @@ resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-1" {
 
 # Create EC2-1 for VPC-1
 resource "aws_instance" "ec2-1" {
-  ami           = "ami-0440d3b780d96b29d"
-  instance_type = "m5.large"  # this instance type allow Serial port connection
+  #ami           = "ami-0440d3b780d96b29d"
+  #instance_type = "m5.large"  # this instance type allow Serial port connection
+  ami           = "ami-0a23a9827c6dab833"
+  instance_type = "t2.micro"
   #associate_public_ip_address   = true
   subnet_id              = aws_subnet.subnet-1.id
   vpc_security_group_ids = [aws_security_group.secgrp-1.id]
@@ -143,8 +145,8 @@ resource "aws_vpc" "vpc-2" {
 
 # create Subnet-2 for VPC-2
 resource "aws_subnet" "subnet-2" {
-  vpc_id     = aws_vpc.vpc-2.id
-  cidr_block = var.dev_subnet2_cidr_block
+  vpc_id            = aws_vpc.vpc-2.id
+  cidr_block        = var.dev_subnet2_cidr_block
   availability_zone = "us-east-1c"
 
   tags = {
@@ -199,15 +201,17 @@ resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-2" {
 
 # Create EC2-2 for VPC-2
 resource "aws_instance" "ec2-2" {
-  ami           = "ami-0440d3b780d96b29d"
-  instance_type = "m5.large"  # this instance type allow Serial port connection
+  #ami           = "ami-0440d3b780d96b29d"
+  #instance_type = "m5.large"  # this instance type allow Serial port connection
+  ami           = "ami-0a23a9827c6dab833"
+  instance_type = "t2.micro"
   #associate_public_ip_address   = true
   subnet_id              = aws_subnet.subnet-2.id
   vpc_security_group_ids = [aws_security_group.secgrp-2.id]
   key_name               = aws_key_pair.kp-1.key_name # use the same key
 
   iam_instance_profile = aws_iam_instance_profile.s3_full_access_profile_02.name
-  
+
   tags = {
     Name = "${var.environment}-EC2-2"
   }
