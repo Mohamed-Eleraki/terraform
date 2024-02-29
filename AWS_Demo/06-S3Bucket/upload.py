@@ -11,4 +11,5 @@ try:
 
     print(f"File '{file_path}' uploaded successfully to S3 bucket '{bucket_name}' / '{object_name}' !")
 except Exception as e:
-    print(f"Error uploading file: {e}")       
+    print(f"Error uploading file: {e}")    
+       
