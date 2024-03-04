@@ -112,7 +112,7 @@ resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-1" {
 resource "aws_instance" "ec2-1" {
   #ami           = "ami-0440d3b780d96b29d"
   #instance_type = "m5.large"  # this instance type allow Serial port connection
-  ami           = "ami-0a23a9827c6dab833"
+  ami           = "ami-0440d3b780d96b29d"
   instance_type = "t2.micro"
   #associate_public_ip_address   = true
   subnet_id              = aws_subnet.subnet-1.id
@@ -203,7 +203,7 @@ resource "aws_vpc_security_group_ingress_rule" "inbound-secgrp-2" {
 resource "aws_instance" "ec2-2" {
   #ami           = "ami-0440d3b780d96b29d"
   #instance_type = "m5.large"  # this instance type allow Serial port connection
-  ami           = "ami-0a23a9827c6dab833"
+  ami           = "ami-0440d3b780d96b29d"
   instance_type = "t2.micro"
   #associate_public_ip_address   = true
   subnet_id              = aws_subnet.subnet-2.id

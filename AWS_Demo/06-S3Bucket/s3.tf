@@ -1,7 +1,7 @@
 resource "aws_s3_bucket" "s3-01" {
   bucket = "eraki-s3-dev-01"
 
-  force_destroy       = false
+  force_destroy       = true
   object_lock_enabled = false
 
   tags = {
@@ -10,6 +10,16 @@ resource "aws_s3_bucket" "s3-01" {
   }
 }
 
+resource "aws_s3_bucket_public_access_block" "s3-01-dis-pubacc" {
+  bucket = aws_s3_bucket.s3-01.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+/*
 resource "aws_s3_bucket_ownership_controls" "s3-01-ownership" {
   bucket = aws_s3_bucket.s3-01.id
   rule {
@@ -34,7 +44,7 @@ resource "aws_kms_key" "s3-01-key" {
   deletion_window_in_days = 10
 }
 
-/*
+
 resource "aws_s3_bucket_server_side_encryption_configuration" "s3-01-encryption-configs" {
   bucket = aws_s3_bucket.s3-01.id
 
@@ -45,7 +55,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "s3-01-encryption-
     }
   }
 }
-*/
+
 
 resource "aws_s3_bucket_versioning" "s3-01-versioning-configs" {
   bucket = aws_s3_bucket.s3-01.id
@@ -54,7 +64,7 @@ resource "aws_s3_bucket_versioning" "s3-01-versioning-configs" {
   }
 }
 
-/*
+
 resource "aws_s3_bucket_object_lock_configuration" "s3-01-obj-lock" {
   bucket = aws_s3_bucket.s3-01.id
 
@@ -68,13 +78,5 @@ resource "aws_s3_bucket_object_lock_configuration" "s3-01-obj-lock" {
   }
   # Please note, that by using the resource, Object Lock can be enabled/disabled without destroying 
   # and recreating the bucket.
-} */
-
-resource "aws_s3_bucket_public_access_block" "s3-01-dis-pubacc" {
-  bucket = aws_s3_bucket.s3-01.id
-
-  block_public_acls       = true
-  block_public_policy     = true
-  ignore_public_acls      = true
-  restrict_public_buckets = true
-}
+} 
+*/
