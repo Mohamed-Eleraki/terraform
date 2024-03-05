@@ -1,5 +1,6 @@
 resource "aws_iam_user" "user-Dave" {
   name = "Dave"
+  #force_destroy = true
 }
 /*
 resource "aws_iam_access_key" "DaveAccessKey" {
