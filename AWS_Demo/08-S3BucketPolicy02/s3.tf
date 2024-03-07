@@ -6,6 +6,11 @@ terraform {
         version = "~> 5.0"
     }
   }
+  # backend "s3" {
+  #   bucket = "bucketName"
+  #   key = "dir/file.tfstate"
+  #   region = "us-east-1"
+  # }
 }
 
 provider "aws" {
@@ -13,19 +18,19 @@ provider "aws" {
   profile = "eraki"
 }
 
-resource "aws_s3_bucket" "s3-01" {
-  bucket = "eraki-s3-dev-01"
+resource "aws_s3_bucket" "s3_01" {
+  bucket = "eraki_s3_dev_01"
   force_destroy = true
   object_lock_enabled = false
 
   tags = {
-    Name        = "eraki-s3-dev-01-Tag"
+    Name        = "eraki_s3_dev_01-Tag"
     Environment = "Dev"
   }
 }
 
-resource "aws_s3_bucket_public_access_block" "s3-01-dis-pubAcc" {
-  bucket = aws_s3_bucket.s3-01.id
+resource "aws_s3_bucket_public_access_block" "s3_01_dis_pubAcc" {
+  bucket = aws_s3_bucket.s3_01.id
   block_public_acls = true
   block_public_policy = true
   ignore_public_acls = true

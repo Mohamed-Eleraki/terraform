@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "2.2",
+  "description": "Use this document to deploy and configure Sophos antivirus ",
+  "mainSteps": [
+    {
+      "action": "aws:runShellScript",
+      "name": "runShellScript",
+      "precondition": {
+        "StringEquals": [
+          "platformType",
+          "Linux"
+        ]
+      },
+      "inputs": {
+        "runCommand": [
+          "#!/bin/bash",
+          "aws s3api put-object --bucket <bucker name> --key DirName/upload.file --body /home/ec2-user/upload.file"
+        ]
+      }
+    }
+  ]
+}

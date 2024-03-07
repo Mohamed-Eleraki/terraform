@@ -1,11 +1,11 @@
-resource "aws_iam_user" "iam-user-dave" {
+resource "aws_iam_user" "iam_user_dave" {
   name = "Dave"
-  force_destroy = true
+  #force_destroy = true # no need for it now as we not creating Secret Key
 }
 
-resource "aws_iam_user_policy" "iam-user-dave_policy" {
+resource "aws_iam_user_policy" "iam_user_dave_policy" {
   name = "AllowDaveToPutGetS3"
-  user = aws_iam_user.iam-user-dave.name
+  user = aws_iam_user.iam_user_dave.name
 
   # Terraform's "jsonencode" function converts a
   # Terraform expression result to valid JSON syntax.
@@ -18,14 +18,8 @@ resource "aws_iam_user_policy" "iam-user-dave_policy" {
           "s3:GetObject"
         ]
         Effect   = "Allow"
-        Resource = "${aws_s3_bucket.s3-01.arn}/*"
+        Resource = "${aws_s3_bucket.s3_01.arn}/*"
       },
     ]
   })
-}
-
-
-
-resource "aws_iam_access_key" "iam-user-dave-AccKey" {
-  user = aws_iam_user.iam-user-dave.name
 }
