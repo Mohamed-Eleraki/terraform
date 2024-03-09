@@ -1,0 +1,120 @@
+# Configure aws provider
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+# Configure aws provider
+provider "aws" {
+  region  = "us-east-1"
+  profile = "eraki"
+}
+
+resource "aws_s3_bucket" "s3_01" {
+  bucket = "eraki-s3-dev-01"
+
+  force_destroy       = true  # force destroy even if the bucket not empty
+  object_lock_enabled = false
+
+  tags = {
+    Name        = "eraki-s3-dev-01-Tag"
+    Environment = "Dev"
+  }
+}
+
+resource "aws_s3_bucket_ownership_controls" "example" {
+  bucket = aws_s3_bucket.s3_01.id
+  rule {
+    object_ownership = "BucketOwnerPreferred"
+  }
+}
+
+resource "aws_s3_bucket_acl" "example" {
+  depends_on = [aws_s3_bucket_ownership_controls.example]
+
+  bucket = aws_s3_bucket.example.id
+  acl    = "private"
+}
+
+# Fetch the Bucket Owner canonical id
+data "aws_canonical_user_id" "current_user" {}
+
+# Create bucket policy
+resource "aws_s3_bucket_policy" "Policy_s3_01" {
+  bucket = aws_s3_bucket.s3_01.id
+  policy = <<EOD
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "111",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "${aws_iam_user.Hala.arn}"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "${aws_s3_bucket.s3_01.arn}/*"
+        },
+        {
+            "Sid": "112",
+            "Effect": "Deny",
+            "Principal": {
+                "AWS": "${aws_iam_user.Hala.arn}"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "${aws_s3_bucket.s3_01.arn}/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "s3:x-amz-grant-full-control": "id=${data.aws_canonical_user_id.current_user.id}"
+                }
+            }
+        }
+    ]
+}
+  EOD
+}
+
+
+
+/*  The default policy from: https://docs.aws.amazon.com/AmazonS3/latest/userguide/example-walkthroughs-managing-access-example4.html
+ 
+resource "aws_s3_bucket_policy" "Policy_s3_01" {
+  bucket = aws_s3_bucket.s3_01.id
+  policy = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "111",
+            "Effect": "Allow",
+            "Principal": {
+                "AWS": "arn:aws:iam::AccountB-ID:user/AccountBadmin"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::DOC-EXAMPLE-BUCKET1/*"
+        },
+        {
+            "Sid": "112",
+            "Effect": "Deny",
+            "Principal": {
+                "AWS": "arn:aws:iam::AccountB-ID:user/AccountBadmin"
+            },
+            "Action": "s3:PutObject",
+            "Resource": "arn:aws:s3:::DOC-EXAMPLE-BUCKET1/*",
+            "Condition": {
+                "StringNotEquals": {
+                    "s3:x-amz-grant-full-control": "id=CanonicalUserId-of-AWSaccountA-BucketOwner"
+                }
+            }
+        }
+    ]
+}
+
+
+  EOF
+}
+*/
