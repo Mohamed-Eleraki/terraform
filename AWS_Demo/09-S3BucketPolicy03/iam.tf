@@ -59,7 +59,7 @@ resource "aws_iam_role_policy_attachment" "attach_s3_get_role" {
   policy_arn = aws_iam_policy.holds_s3_get_policy.arn
 }
 
-# # you must put the role into the user profile
+# you must put the role into the user profile  | https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-role.html
 # [profile Taha]
 # region = us-east-1
 # output = json
