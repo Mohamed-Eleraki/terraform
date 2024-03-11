@@ -14,6 +14,7 @@ resource "aws_iam_user" "Mostafa" {
 # Create IAM Role for Taha - (i.e. Consider it as external access)
 resource "aws_iam_role" "iam_role_get_s3_taha" {
   name = "s3_get_access_role"
+  max_session_duration = 3600  # Set The Maximum session duration (in seconds) to 60 MIN
 
   assume_role_policy = <<EOF
 {
@@ -32,7 +33,7 @@ resource "aws_iam_role" "iam_role_get_s3_taha" {
 EOF
 }
 
-# Create S3 get policy
+# Create S3 get policy document
 data "aws_iam_policy_document" "s3_get_access_policy_document" {
   statement {
     sid = "115"
@@ -48,6 +49,7 @@ data "aws_iam_policy_document" "s3_get_access_policy_document" {
   }
 }
 
+# Creaet policy just to hold the document created
 resource "aws_iam_policy" "holds_s3_get_policy" {
   name = "holds_s3_get_policy"
   policy = data.aws_iam_policy_document.s3_get_access_policy_document.json

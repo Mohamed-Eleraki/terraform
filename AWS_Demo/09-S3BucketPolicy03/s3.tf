@@ -11,9 +11,10 @@ terraform {
 # Configure aws provider
 provider "aws" {
   region  = "us-east-1"
-  profile = "eraki"
+  profile = "eraki"  # force destroy even if the bucket not empty
 }
 
+# Create S3 Bucket
 resource "aws_s3_bucket" "s3_01" {
   bucket = "eraki-s3-dev-01"
 
@@ -26,14 +27,16 @@ resource "aws_s3_bucket" "s3_01" {
   }
 }
 
+# Set the ownership of objects to the object writer
 resource "aws_s3_bucket_ownership_controls" "ownership_s3_01" {
   bucket = aws_s3_bucket.s3_01.id
   rule {
-    object_ownership = "BucketOwnerPreferred"
-    #object_ownership = "ObjectWriter"
+    #object_ownership = "BucketOwnerPreferred"
+    object_ownership = "ObjectWriter"
   }
 }
 
+# Enable ACL as private
 resource "aws_s3_bucket_acl" "acl_s3_01" {
   depends_on = [aws_s3_bucket_ownership_controls.ownership_s3_01]
 
@@ -41,7 +44,8 @@ resource "aws_s3_bucket_acl" "acl_s3_01" {
   acl    = "private"
 }
 
-# Create bucket policy
+
+# Create bucket policy by mentioning the policy below
 resource "aws_s3_bucket_policy" "Policy_s3_01" {
   bucket = aws_s3_bucket.s3_01.id
   policy = data.aws_iam_policy_document.policy_document_s3_01.json

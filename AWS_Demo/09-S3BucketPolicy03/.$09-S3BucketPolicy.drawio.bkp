@@ -1,0 +1,84 @@
+<mxfile host="Electron" modified="2024-03-11T08:18:27.418Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="6wMV7m41pM3c03cVl1KB" version="22.1.2" type="device">
+  <diagram name="Page-1" id="AZlwQYpqR1Bc79jKfAOq">
+    <mxGraphModel dx="1434" dy="870" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="Er2pPMwz5ppjXa08mav1-2" value="&lt;div style=&quot;color: rgb(204, 204, 204); background-color: rgb(31, 31, 31); font-family: Consolas, &amp;quot;Courier New&amp;quot;, monospace; font-size: 14px; line-height: 19px;&quot;&gt;eraki-s3-dev-01&lt;/div&gt;" style="sketch=0;points=[[0,0,0],[0.25,0,0],[0.5,0,0],[0.75,0,0],[1,0,0],[0,1,0],[0.25,1,0],[0.5,1,0],[0.75,1,0],[1,1,0],[0,0.25,0],[0,0.5,0],[0,0.75,0],[1,0.25,0],[1,0.5,0],[1,0.75,0]];outlineConnect=0;fontColor=#232F3E;fillColor=#7AA116;strokeColor=#ffffff;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;shape=mxgraph.aws4.resourceIcon;resIcon=mxgraph.aws4.s3;" vertex="1" parent="1">
+          <mxGeometry x="386" y="180" width="78" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="422" y="288" as="targetPoint" />
+            <mxPoint x="422" y="390" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-3" value="&lt;font color=&quot;#ffffff&quot;&gt;IAM Role have GetObject access&lt;/font&gt;" style="sketch=0;outlineConnect=0;fontColor=#232F3E;gradientColor=none;fillColor=#DD344C;strokeColor=none;dashed=0;verticalLabelPosition=bottom;verticalAlign=top;align=center;html=1;fontSize=12;fontStyle=0;aspect=fixed;pointerEvents=1;shape=mxgraph.aws4.role;" vertex="1" parent="1">
+          <mxGeometry x="383" y="398" width="78" height="44" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-19" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Er2pPMwz5ppjXa08mav1-4">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="423" y="470" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-23" value="Get objects, use IAM role access." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Er2pPMwz5ppjXa08mav1-19">
+          <mxGeometry x="0.1847" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-4" value="Taha" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;strokeWidth=1;shape=mxgraph.mockup.containers.userMale;strokeColor=#666666;strokeColor2=#008cff;" vertex="1" parent="1">
+          <mxGeometry x="373" y="583" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="Er2pPMwz5ppjXa08mav1-2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="570" y="210" as="targetPoint" />
+            <mxPoint x="730" y="536" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-21" value="Put ACL objects, and cannot own." style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Er2pPMwz5ppjXa08mav1-18">
+          <mxGeometry x="0.0471" y="1" relative="1" as="geometry">
+            <mxPoint y="-1" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-5" value="Mostafa" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;strokeWidth=1;shape=mxgraph.mockup.containers.userMale;strokeColor=#666666;strokeColor2=#008cff;" vertex="1" parent="1">
+          <mxGeometry x="700" y="496" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-6" value="Mohamed" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;strokeWidth=1;shape=mxgraph.mockup.containers.userMale;strokeColor=#666666;strokeColor2=#008cff;" vertex="1" parent="1">
+          <mxGeometry x="50" y="496" width="100" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Er2pPMwz5ppjXa08mav1-8">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="710" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-8" value="- IAM User / Internal Access.&lt;br&gt;- Have Access to put into /mostafa Directory only.&lt;br&gt;- cannot own his objects.&lt;br&gt;&amp;nbsp;- Access S3 using ACL." style="text;spacingTop=-5;whiteSpace=wrap;html=1;align=left;fontSize=12;fontFamily=Helvetica;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="570" y="660" width="270" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Er2pPMwz5ppjXa08mav1-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="383" y="697" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-11" value="- IAM User / External Access.&lt;br&gt;- Have Access to get from /mostafa Directory only.&lt;br&gt;- Use IAM Role for access the Bucket." style="text;spacingTop=-5;whiteSpace=wrap;html=1;align=left;fontSize=12;fontFamily=Helvetica;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="285" y="747" width="270" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;" edge="1" parent="1" source="Er2pPMwz5ppjXa08mav1-13">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="145" y="610" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-13" value="- IAM User / Internal Access.&lt;br&gt;- Have Access on the entire Bucket.&lt;br&gt;- Access S3 using Bucket policy." style="text;spacingTop=-5;whiteSpace=wrap;html=1;align=left;fontSize=12;fontFamily=Helvetica;fillColor=none;strokeColor=none;" vertex="1" parent="1">
+          <mxGeometry x="10" y="655" width="270" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-17" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0;entryY=0.5;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="Er2pPMwz5ppjXa08mav1-6" target="Er2pPMwz5ppjXa08mav1-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="Er2pPMwz5ppjXa08mav1-22" value="Put, Get, list, And Delete objects" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" vertex="1" connectable="0" parent="Er2pPMwz5ppjXa08mav1-17">
+          <mxGeometry x="0.048" relative="1" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
