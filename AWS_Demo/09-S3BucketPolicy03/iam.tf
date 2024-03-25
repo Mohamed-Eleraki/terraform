@@ -1,20 +1,20 @@
 resource "aws_iam_user" "Mohamed" {
-    name = "Mohamed"
+  name = "Mohamed"
 }
 
 
-resource "aws_iam_user" "Taha" {  # (i.e. Consider it as external access)
-    name = "Taha"
+resource "aws_iam_user" "Taha" { # (i.e. Consider it as external access)
+  name = "Taha"
 }
 
 resource "aws_iam_user" "Mostafa" {
-    name = "Mostafa"
+  name = "Mostafa"
 }
 
 # Create IAM Role for Taha - (i.e. Consider it as external access)
 resource "aws_iam_role" "iam_role_get_s3_taha" {
-  name = "s3_get_access_role"
-  max_session_duration = 3600  # Set The Maximum session duration (in seconds) to 60 MIN
+  name                 = "s3_get_access_role"
+  max_session_duration = 3600 # Set The Maximum session duration (in seconds) to 60 MIN
 
   assume_role_policy = <<EOF
 {
@@ -36,28 +36,35 @@ EOF
 # Create S3 get policy document
 data "aws_iam_policy_document" "s3_get_access_policy_document" {
   statement {
-    sid = "115"
-    effect = "Allow"   
+    sid    = "115"
+    effect = "Allow"
 
-    actions = [ 
+    actions = [
       "s3:GetObject"
-     ]
+    ]
 
-     resources = [ 
+    resources = [
       "${aws_s3_bucket.s3_01.arn}/mostafa/*"
-      ]
+    ]
+
+    condition {
+      test     = "IpAddress"
+      variable = "aws:SourceIp"
+
+      values = ["41.45.34.102"]
+    }
   }
 }
 
 # Creaet policy just to hold the document created
 resource "aws_iam_policy" "holds_s3_get_policy" {
-  name = "holds_s3_get_policy"
+  name   = "holds_s3_get_policy"
   policy = data.aws_iam_policy_document.s3_get_access_policy_document.json
 }
 
 # attche s3 get policy to the role
 resource "aws_iam_role_policy_attachment" "attach_s3_get_role" {
-  role = aws_iam_role.iam_role_get_s3_taha.name
+  role       = aws_iam_role.iam_role_get_s3_taha.name
   policy_arn = aws_iam_policy.holds_s3_get_policy.arn
 }
 

@@ -11,14 +11,14 @@ terraform {
 # Configure aws provider
 provider "aws" {
   region  = "us-east-1"
-  profile = "eraki"  # force destroy even if the bucket not empty
+  profile = "eraki" # force destroy even if the bucket not empty
 }
 
 # Create S3 Bucket
 resource "aws_s3_bucket" "s3_01" {
   bucket = "eraki-s3-dev-01"
 
-  force_destroy       = true  # force destroy even if the bucket not empty
+  force_destroy       = true # force destroy even if the bucket not empty
   object_lock_enabled = false
 
   tags = {
@@ -57,71 +57,71 @@ data "aws_canonical_user_id" "current_user" {}
 # Create policy document
 data "aws_iam_policy_document" "policy_document_s3_01" {
   statement {
-    sid = "111"
+    sid    = "111"
     effect = "Allow"
     principals {
-      type = "AWS"
-      identifiers = [ "${aws_iam_user.Mostafa.arn}" ]
-    }    
+      type        = "AWS"
+      identifiers = ["${aws_iam_user.Mostafa.arn}"]
+    }
 
-    actions = [ 
+    actions = [
       "s3:PutObject"
-     ]
+    ]
 
-     resources = [ 
+    resources = [
       "${aws_s3_bucket.s3_01.arn}/mostafa/*"
-      ]
+    ]
   }
 
   statement {
-    sid = "112"
+    sid    = "112"
     effect = "Deny"
     principals {
-      type = "AWS"
-      identifiers = [ "${aws_iam_user.Mostafa.arn}" ]
-    }    
+      type        = "AWS"
+      identifiers = ["${aws_iam_user.Mostafa.arn}"]
+    }
 
-    actions = [ 
+    actions = [
       "s3:PutObject"
-     ]
+    ]
 
-     resources = [ 
+    resources = [
       "${aws_s3_bucket.s3_01.arn}/mostafa/*"
-      ]
+    ]
 
-      condition {
-        test = "StringNotEquals"
-        variable = "s3:x-amz-grant-full-control"
-        values = [ "id=${data.aws_canonical_user_id.current_user.id}" ]
-      }
+    condition {
+      test     = "StringNotEquals"
+      variable = "s3:x-amz-grant-full-control"
+      values   = ["id=${data.aws_canonical_user_id.current_user.id}"]
+    }
   }
 
-    statement {
-    sid = "113"
+  statement {
+    sid    = "113"
     effect = "Allow"
     principals {
-      type = "AWS"
-      identifiers = [ "${aws_iam_user.Mohamed.arn}" ]
-    }    
+      type        = "AWS"
+      identifiers = ["${aws_iam_user.Mohamed.arn}"]
+    }
 
-    actions = [ 
+    actions = [
       "s3:PutObject",
       "s3:GetObject",
       "s3:DeleteObject",
       "s3:ListBucket"
-     ]
+    ]
 
-     resources = [ 
+    resources = [
       aws_s3_bucket.s3_01.arn,
       "${aws_s3_bucket.s3_01.arn}/*"
-      ]
+    ]
   }
 }
 
 # Create S3 objects (i.e directories)
 resource "aws_s3_object" "directory_object_s3_01_mostafa" {
-  bucket = aws_s3_bucket.s3_01.id
-  key = "mostafa/"
+  bucket       = aws_s3_bucket.s3_01.id
+  key          = "mostafa/"
   content_type = "application/x-directoy"
 }
 
