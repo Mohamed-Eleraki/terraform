@@ -13,4 +13,8 @@ def lambda_handler(event, context):
     
     
     # format and return resonse
-    return  {'CustomerId': customerId, 'Success': 'true', 'TransactionId': transactionId}
+    return  {
+        'CustomerId': customerId,
+        'Success': 'true',
+        'TransactionId': transactionId
+             }
