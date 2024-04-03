@@ -1,9 +1,13 @@
+########################################################
+## This is a play around space not a real project yet ##
+########################################################
+
 # Create lambda funtion - to invoke
 resource "aws_lambda_function" "lambda_to_invoke" {
   function_name = "lambda_to_invoke"
-  filename = "${path.module}/lambdaToInvoke.zip"
-  source_code_hash = filebase64sha256("${path.module}/lambdaToInvoke.zip")
-  handler = "lambda_to_invoke.lambda_handler"
+  filename = "${path.module}/my_deployment_pacakge.zip"
+  source_code_hash = filebase64sha256("${path.module}/my_deployment_pacakge.zip")
+  handler = "my_deployment_pacakge.zip.lambda_handler"
   role = aws_iam_role.default_role.arn
   runtime = "python3.12"
   timeout = 300
