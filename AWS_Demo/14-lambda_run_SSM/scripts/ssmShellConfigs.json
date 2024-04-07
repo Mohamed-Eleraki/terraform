@@ -1,0 +1,23 @@
+{
+    "schemaVersion": "2.2",
+    "description": "Use this document to deploy and configure Linux Servers ",
+    "mainSteps": [
+      {
+        "action": "aws:runShellScript",
+        "name": "runShellScript",
+        "precondition": {
+          "StringEquals": [
+            "platformType",
+            "Linux"
+          ]
+        },
+        "inputs": {
+          "runCommand": [
+            "#!/bin/bash",
+            "mkdir /testDir",
+            "touch /testDir/testFile"
+          ]
+        }
+      }
+    ]
+  }

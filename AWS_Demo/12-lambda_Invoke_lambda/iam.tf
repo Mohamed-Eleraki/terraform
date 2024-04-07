@@ -49,7 +49,7 @@ resource "aws_iam_role" "iam_role_access_lambda" {
   })
 }
 
-# Attaach custome policy to the role
+# Attaach custome managed policy to the role
 resource "aws_iam_role_policy_attachment" "lambda_policy_attachment01" {
   role = aws_iam_role.iam_role_access_lambda.name
   policy_arn = aws_iam_policy.inlinePolicy_access_lambda.arn
