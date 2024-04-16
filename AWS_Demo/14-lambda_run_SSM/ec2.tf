@@ -55,7 +55,7 @@ resource "aws_instance" "ec2_instance_1" {
   #     command = "sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm && sudo systemctl start amazon-ssm-agent"
   #   }
 
-
+  # Install the SSM Agent
   user_data = <<-EOF
               #!/bin/bash
               sudo yum install -y https://s3.amazonaws.com/ec2-downloads-windows/SSMAgent/latest/linux_amd64/amazon-ssm-agent.rpm
