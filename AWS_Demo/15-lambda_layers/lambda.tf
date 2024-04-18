@@ -43,14 +43,20 @@ resource "aws_iam_role" "lambda_iam_role" {
   })
 
   managed_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
+    #"arn:aws:iam::aws:policy/AmazonSSMFullAccess",
     "arn:aws:iam::aws:policy/AmazonEC2FullAccess"
   ]
 
 }
 
 
-import {
-    to = aws_iam_role.lambda_iam_role
-    id = "lambda_iam_role"
-}
+# import {
+#     to = aws_iam_role.lambda_iam_role
+#     id = "lambda_iam_role"
+# }
+
+# import {
+#     to = aws_lambda_layer_version.fetchVPCs_layer
+#     #id = "fetchVPCs_layer"
+#     id = "arn:aws:lambda:us-east-1:891377122503:layer:fetchVPCs_layer:2"
+# }
