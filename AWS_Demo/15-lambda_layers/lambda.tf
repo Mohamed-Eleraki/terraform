@@ -1,4 +1,4 @@
-# run the bash script to install and package the all dependencies
+# run the bash script to install and package and all dependencies
 resource "null_resource" "create_fetchVPCs_layer" {
   provisioner "local-exec" {
     command = "sh scripts/create_layer.sh"
@@ -7,21 +7,33 @@ resource "null_resource" "create_fetchVPCs_layer" {
 
 # Deploy lambda layer resource
 resource "aws_lambda_layer_version" "fetchVPCs_layer" {
+  # Delay untill dependencies packages are available
   depends_on = [ null_resource.create_fetchVPCs_layer ]
+
+  # mention file path of created package
   filename            = "${path.module}/scripts/fetchVPCs_depens_packages.zip"
+
   layer_name          = "fetchVPCs_layer"
   compatible_runtimes = ["python3.12", "python3.11"]
 }
 
 # Deploy lambda function
 resource "aws_lambda_function" "fetchVPCs_function" {
-  function_name    = "fetchVPCsFunction"
-  filename         = "${path.module}/scripts/fetchVPCs.zip"
-  source_code_hash = filebase64sha256("${path.module}/scripts/fetchVPCs.zip")
-  handler          = "fetchVPCs.lambda_handler"
+  function_name    = "fetch_vpcs_Function"
+
+  # zip file path holds python script
+  filename         = "${path.module}/scripts/fetch_vpcs.zip"
+  source_code_hash = filebase64sha256("${path.module}/scripts/fetch_vpcs.zip")
+
+  # handler name = file_name.python_function_name
+  handler          = "fetch_vpcs.lambda_handler"
   runtime          = "python3.12"
   timeout          = 120
+
+  # utilizing deployed Role
   role             = aws_iam_role.lambda_iam_role.arn
+
+  # utilizing deployed layer
   layers = [aws_lambda_layer_version.fetchVPCs_layer.arn]
 }
 
