@@ -28,6 +28,7 @@ resource "aws_lambda_function" "fetchVPCs_function" {
   # handler name = file_name.python_function_name
   handler          = "fetch_vpcs.lambda_handler"
   runtime          = "python3.12"
+  #runtime          = "python3.11"
   timeout          = 120
 
   # utilizing deployed Role

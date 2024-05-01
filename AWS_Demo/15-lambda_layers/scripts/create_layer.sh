@@ -11,6 +11,7 @@ source ./fetchVPCs_depens_env/bin/activate
 
 # Install boto3 library inside the virtual environment - install all the libraries here
 pip install boto3
+#pip install pg8000
 
 # Deactivate the virtual environment
 deactivate
