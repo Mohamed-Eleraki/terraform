@@ -16,57 +16,58 @@ resource "aws_s3_bucket" "s3_01" {
 # Deploy s3 directories #
 #########################
 resource "aws_s3_object" "directory_object_s3_01_outgoing" {
-  bucket = aws_s3_bucket.s3_01.id
-  key = "outgoing/"
+  bucket       = aws_s3_bucket.s3_01.id
+  key          = "outgoing/"
   content_type = "application/x-directory"
 }
 
 resource "aws_s3_object" "directory_object_s3_01_incoming" {
-  bucket = aws_s3_bucket.s3_01.id
-  key = "incoming/"
+  bucket       = aws_s3_bucket.s3_01.id
+  key          = "incoming/"
   content_type = "application/x-directory"
 }
 
 resource "aws_s3_object" "directory_object_s3_01_logs" {
-  bucket = aws_s3_bucket.s3_01.id
-  key = "logs/"
+  bucket       = aws_s3_bucket.s3_01.id
+  key          = "logs/"
   content_type = "application/x-directory"
 }
 
 
-############################################
-# Deploy lifecycle resouces configurations #
-############################################
+#############################################
+# Deploy lifecycle resources configurations #
+#############################################
 
+# Deploy lifecycle resource configuration
 resource "aws_s3_bucket_lifecycle_configuration" "lifeCycle_configs" {
   bucket = aws_s3_bucket.s3_01.id
 
-  ######################
-  # log directory rule #
-  ######################
+  #######################
+  # logs directory rule #
+  #######################
   rule {
     id = "log-directory"
-    
-    filter {  # filter the bucket based on the path prefix 
-        prefix = "logs/"
+
+    filter { # filter the bucket based on the path prefix 
+      prefix = "logs/"
     }
 
-    transition {  # move the files to infrequent access tier
-      days = 30
+    transition { # move the files to infrequent access tier 30 days after creation time
+      days          = 30
       storage_class = "STANDARD_IA"
     }
 
-    transition {  # move the files to Archive tier
-        days  = 90
-        storage_class = "GLACIER"
+    transition { # move the files to Archive tier 90 days after creation time.
+      days          = 90
+      storage_class = "GLACIER"
     }
 
-    transition {  # move the files to the deep archive tier
-      days = 180
+    transition { # move the files to the deep archive tier 180 days after creation time.
+      days          = 180
       storage_class = "DEEP_ARCHIVE"
     }
 
-    expiration {
+    expiration { # Delete objects a year after creation time.
       days = 365
     }
     # Enable the rule
@@ -81,8 +82,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifeCycle_configs" {
     id = "outgoing-directory"
 
     filter {
-      tag {
-        key = "Name"
+      tag { # filter objects based on objects tag & under outgoing directory object
+        key   = "Name"
         value = "notDeepArchvie"
       }
       and {
@@ -90,17 +91,17 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifeCycle_configs" {
       }
     }
 
-    transition {  # Move to Infrequent access tier
-      days = 30
+    transition { # Move to Infrequent access tier 30 days after creation time
+      days          = 30
       storage_class = "STANDARD_IA"
     }
 
-    transition {  # Move to Archive access tier
-      days = 90
+    transition { # Move to Archive access tier 90 days after creation time
+      days          = 90
       storage_class = "GLACIER"
     }
 
-    expiration {
+    expiration { # Delete objects a year after creation time.
       days = 365
     }
 
@@ -116,20 +117,20 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifeCycle_configs" {
     id = "incoming-directory"
 
     filter {
-        prefix = "incoming/"
+      prefix = "incoming/"
 
-        # Filter files it's size is between 1MB to 1G
-        object_size_greater_than = 1000000 # in Bytes
-        object_size_less_than = 1073741824  # in Bytes
+      # Filter files it's size is between 1MB to 1G
+      object_size_greater_than = 1000000    # in Bytes
+      object_size_less_than    = 1073741824 # in Bytes
     }
 
-    transition {  # Move to Infrequent access tier
-      days = 30
+    transition { # Move to Infrequent access tier 30 days after creation time
+      days          = 30
       storage_class = "STANDARD_IA"
     }
 
-    transition {  # Move to Archive access tier
-      days = 90
+    transition { # Move to Archive access tier 90 days after creation time
+      days          = 90
       storage_class = "GLACIER"
     }
 
