@@ -7,13 +7,13 @@ terraform {
     }
   }
 
-#   backend "s3" {
-#   bucket = "erakiterrafromstatefiles"
-#   key    = "15-lambda_layers/lambda_layer.tfstate"
-#   region = "us-east-1"
-#   profile = "eraki"
-#   }
+  backend "s3" {
+    bucket  = "erakiterrafromstatefiles"
+    key     = "15-lambda_layers/lambda_layer.tfstate"
+    region  = "us-east-1"
+    profile = "eraki"
   }
+}
 
 # Configure aws provider
 provider "aws" {
