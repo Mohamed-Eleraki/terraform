@@ -1,0 +1,56 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Sid": "AllowActionsToReportS3BankOneIN",
+			"Effect": "Allow",
+			"Action": [
+				"s3:GetObject",
+				"s3:PutObject"
+			],
+			"Resource": [
+				"arn:aws:s3:::NAME_OF_BUCKET/PATH/TO/DIR/*"
+			],
+			"Condition": {
+				"IpAddress": {
+					"aws:SourceIp": "PUBLIC_IP/32"
+				}
+			}
+		},
+		{
+			"Sid": "AllowListObjectsToReportS3BankOneIN",
+			"Effect": "Allow",
+			"Action": [
+				"s3:ListBucket"
+			],
+			"Resource": [
+				"arn:aws:s3:::NAME_OF_BUCKET"
+			],
+			"Condition": {
+				"StringLike": {
+					"s3:prefix": [
+						"PATH/TO/DIR/*"
+					]
+				},
+				"IpAddress": {
+					"aws:SourceIp": "PUBLIC_IP/32"
+				}
+			}
+		},
+		{
+			"Sid": "DenyListingOutsideBankOneIN",
+			"Effect": "Deny",
+			"Action": "s3:ListBucket",
+			"Resource": [
+				"arn:aws:s3:::NAME_OF_BUCKET/PATH/TO/DIR/*"
+			],
+			"Condition": {
+				"StringNotLike": {
+					"s3:prefix": [
+						"/PATH/TO/DIR/*"
+					]
+				}
+			}
+		}
+	]
+}
