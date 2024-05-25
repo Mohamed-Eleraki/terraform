@@ -58,7 +58,7 @@ resource "aws_s3_bucket_lifecycle_configuration" "lifeCycle_configs" {
     }
 
     transition { # move the files to Archive tier 90 days after creation time.
-      days          = 90
+      days          = 0
       storage_class = "GLACIER"
     }
 

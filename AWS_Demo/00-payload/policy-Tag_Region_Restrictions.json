@@ -1,0 +1,52 @@
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Deny",
+			"Action": "*",
+			"Resource": "*",
+			"Condition": {
+				"StringNotEquals": {
+					"aws:PrincipalTag/Environment": "terraformChamps",
+					"aws:PrincipalTag/Owner": "lama",
+					"aws:RequestedRegion": "us-east-1"
+				}
+			}
+		},
+		{
+			"Effect": "Allow",
+			"Action": [
+				"ec2:CreateVpc",
+				"ec2:DeleteVpc",
+				"ec2:CreateSubnet",
+				"ec2:DeleteSubnet",
+				"ec2:CreateInternetGateway",
+				"ec2:DeleteInternetGateway",
+				"ec2:AttachInternetGateway",
+				"ec2:DetachInternetGateway",
+				"ec2:CreateRouteTable",
+				"ec2:DeleteRouteTable",
+				"ec2:AssociateRouteTable",
+				"ec2:DisassociateRouteTable",
+				"ec2:CreateRoute",
+				"ec2:DeleteRoute",
+				"ec2:DescribeVpcs",
+				"ec2:DescribeSubnets",
+				"ec2:DescribeInternetGateways",
+				"ec2:DescribeRouteTables",
+				"ec2:CreateTags",
+				"ec2:DescribeVpcAttribute",
+				"ec2:DescribeNetworkInterfaces"
+			],
+			"Resource": "*",
+			"Condition": {
+				"StringEquals": {
+					"aws:RequestedRegion": "us-east-1"
+				}
+			}
+		}
+	]
+}
+
+# https://repost.aws/knowledge-center/iam-tag-based-restriction-policies
+# 
