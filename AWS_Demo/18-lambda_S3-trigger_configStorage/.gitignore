@@ -1,0 +1,4 @@
+*.terraform
+*.zip
+projectNotes.md
+objectMigration_dependencies
