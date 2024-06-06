@@ -12,7 +12,7 @@ resource "aws_lambda_layer_version" "object_migration_layer" {
 
 # Deploy lambda function
 resource "aws_lambda_function" "Object_migration_function" {
-  function_name = "objectMigrationFunction"
+  function_name = "objectMigrationFunction01"
 
   # zip file path holds python script
   filename         = "${path.module}/scripts/objectMigration.zip"
@@ -36,5 +36,20 @@ resource "aws_lambda_function" "Object_migration_function" {
   }
 }
 
+# Lambda destination configuration for failures
+resource "aws_lambda_function_event_invoke_config" "migration_lambda_sns_destination" {
+  depends_on = [ aws_iam_role.lambda_iam_role ]
+  function_name = aws_lambda_function.Object_migration_function.function_name
+
+  destination_config {
+    on_failure {
+      destination = aws_sns_topic.migration_lambda_failures.arn
+    }
+
+    on_success {
+      destination = aws_sns_topic.migration_lambda_failures.arn
+    }
+  }
+}
 # Reference
 # - https://docs.aws.amazon.com/lambda/latest/dg/with-s3-example.html

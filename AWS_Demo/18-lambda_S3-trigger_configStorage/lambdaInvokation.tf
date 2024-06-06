@@ -9,13 +9,13 @@ resource "aws_lambda_permission" "Allow_s3_invocation" {
 
 # configure Bukcet notification trigger
 resource "aws_s3_bucket_notification" "BukcetOne_notification" {
-  depends_on = [ aws_lambda_function.Object_migration_function ]
-  bucket = aws_s3_bucket.BucketOne.id
+  depends_on = [aws_lambda_function.Object_migration_function]
+  bucket     = aws_s3_bucket.BucketOne.id
 
   lambda_function {
     lambda_function_arn = aws_lambda_function.Object_migration_function.arn
     events              = ["s3:ObjectCreated:*"]
     # filter_prefix = "/path"
-    filter_suffix = ".*"
+    filter_suffix = ".txt"
   }
 }
