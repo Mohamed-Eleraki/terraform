@@ -29,16 +29,22 @@ resource "aws_lambda_function" "Object_migration_function" {
   # utilizing deployed layer
   layers = [aws_lambda_layer_version.object_migration_layer.arn]
 
+  # Set environment variables
   environment {
     variables = {
       DEST_BUCKET = aws_s3_bucket.BucketTwo.bucket
     }
   }
+
+  # Configure ephemeral storage | Test purpose
+  ephemeral_storage {
+    size = 10240 # specify the maximum ephemeral storage size
+  }
 }
 
 # Lambda destination configuration for failures
 resource "aws_lambda_function_event_invoke_config" "migration_lambda_sns_destination" {
-  depends_on = [ aws_iam_role.lambda_iam_role ]
+  depends_on    = [aws_iam_role.lambda_iam_role]
   function_name = aws_lambda_function.Object_migration_function.function_name
 
   destination_config {
