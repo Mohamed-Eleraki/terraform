@@ -5,11 +5,9 @@
 .terraform/
 terraform
 .terraform.lock.hcl
-AWS_Demo/13-lambda_playAround/build_function_with_zip/my_virtual_env/lib64
-AWS_Demo/13-lambda_playAround/build_function_with_zip/my_virtual_env/bin/python3.11
-AWS_Demo/13-lambda_playAround/build_function_with_zip/my_virtual_env/bin/python3
-AWS_Demo/13-lambda_playAround/build_function_with_zip/my_virtual_env/bin/python
-AWS_Demo/13-lambda_playAround/build_function_with_zip/my_virtual_env/bin/python
-AWS_Demo/13-lambda_playAround/build_function_with_zip/my_virtual_env/bin/python
-AWS_Demo/13-lambda_playAround/build_function_with_zip/my_virtual_env/bin/python3
-AWS_Demo/13-lambda_playAround/build_function_with_zip/my_virtual_env/bin/python3.11
+
+# ignore package files
+*.zip
+*depends
+URL_invokation_depends*
+
