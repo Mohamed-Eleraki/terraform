@@ -15,8 +15,8 @@ resource "aws_lambda_function" "url_invokation_function" {
   function_name = "invokationFunction"
 
   # zip file path holds python script
-  filename         = "${path.module}/scripts/URLinvokation.zip"
-  source_code_hash = filebase64sha256("${path.module}/scripts/URLinvokation.zip")
+  filename         = "${path.module}/scripts/URLinvokation05.zip"
+  source_code_hash = filebase64sha256("${path.module}/scripts/URLinvokation05.zip")
 
   # handler name = file_name.python_function_name
   handler = "URLinvokation.lambda_handler"
@@ -51,20 +51,21 @@ resource "aws_lambda_function" "url_invokation_function" {
   lifecycle {
     create_before_destroy = true
   }
+
 }
 
 # Lambda destination configuration for failures
-resource "aws_lambda_function_event_invoke_config" "migration_lambda_sns_destination" {
+resource "aws_lambda_function_event_invoke_config" "invokation_lambda_sns_destination" {
   depends_on    = [aws_iam_role.lambda_iam_role]
   function_name = aws_lambda_function.url_invokation_function.function_name
 
   destination_config {
     on_failure {
-      destination = aws_sns_topic.url_invokation_lambda_failures.arn
+      destination = aws_sns_topic.url_invokation_lambda_failures_success.arn
     }
 
     on_success {
-      destination = aws_sns_topic.url_invokation_lambda_failures.arn
+      destination = aws_sns_topic.url_invokation_lambda_failures_success.arn
     }
   }
 }
@@ -79,5 +80,14 @@ output "lambda_function_url" {
 }
 
 
-# invokation command
-# curl -X POST https://u3c7wopsscygzw6huz6ikygnnm0aoakr.lambda-url.us-east-1.on.aws/ -d '{"directory_name": "test_dir"}' -H "Content-Type: application/json"
+# invokation commands
+# curl -X POST https://nowfrll677igoqi3zh2ebl5aqm0keszy.lambda-url.us-east-1.on.aws/ -d '{"directory_name": "test_dir"}' -H "Content-Type: application/json"
+# curl -X POST https://nowfrll677igoqi3zh2ebl5aqm0keszy.lambda-url.us-east-1.on.aws/ -d "{'directory_name': 'test_dir'}" -H "Content-Type: application/json"
+# curl -v https://nowfrll677igoqi3zh2ebl5aqm0keszy.lambda-url.us-east-1.on.aws/ -d '{"directory_name": "test_dir"}' -H "Content-Type: application/json"
+
+
+# curl -v 'https://fhoozovovlwi2hotj7glpl6mem0oilyv.lambda-url.us-east-1.on.aws/' \
+# -H 'content-type: application/json' \
+# -d '{ "directory_name": "dir_from_curl_024" }'
+
+# aws sns publish --topic-arn arn:aws:sns:us-east-1:891377122503:lambda-failures-topic --message "Test Success Message" --profile eraki
