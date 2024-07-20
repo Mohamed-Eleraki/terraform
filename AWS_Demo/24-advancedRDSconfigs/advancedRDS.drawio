@@ -1,4 +1,4 @@
-<mxfile host="Electron" modified="2024-07-19T09:47:23.405Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="wn0BjpjG59E_v-u-x1YU" version="24.6.4" type="device">
+<mxfile host="Electron" modified="2024-07-20T06:43:13.121Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.6.4 Chrome/124.0.6367.207 Electron/30.0.6 Safari/537.36" etag="7PwUIjRO1WDrQ5eCqfKp" version="24.6.4" type="device">
   <diagram name="Page-1" id="677_0v363ND3AeY2xvX7">
     <mxGraphModel dx="1362" dy="843" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
       <root>
@@ -31,7 +31,7 @@
         <mxCell id="rNb3Nq_eKwGEg8aCowNG-10" value="SecGrp_RDS_01" style="fontStyle=0;verticalAlign=top;align=center;spacingTop=-2;fillColor=none;rounded=0;whiteSpace=wrap;html=1;strokeColor=#FF0000;strokeWidth=2;dashed=1;container=1;collapsible=0;expand=0;recursiveResize=0;" vertex="1" parent="rNb3Nq_eKwGEg8aCowNG-6">
           <mxGeometry x="101" y="-245" width="200" height="450" as="geometry" />
         </mxCell>
-        <mxCell id="rNb3Nq_eKwGEg8aCowNG-13" value="&lt;font color=&quot;#ffb570&quot;&gt;us-east-1-1a&lt;/font&gt;" style="fillColor=none;strokeColor=#FFB570;dashed=1;verticalAlign=top;fontStyle=0;fontColor=#147EBA;whiteSpace=wrap;html=1;rotation=90;" vertex="1" parent="rNb3Nq_eKwGEg8aCowNG-3">
+        <mxCell id="rNb3Nq_eKwGEg8aCowNG-13" value="&lt;font color=&quot;#ffb570&quot;&gt;us-east-1a&lt;/font&gt;" style="fillColor=none;strokeColor=#FFB570;dashed=1;verticalAlign=top;fontStyle=0;fontColor=#147EBA;whiteSpace=wrap;html=1;rotation=90;" vertex="1" parent="rNb3Nq_eKwGEg8aCowNG-3">
           <mxGeometry x="550" y="-80" width="270" height="450" as="geometry" />
         </mxCell>
         <mxCell id="rNb3Nq_eKwGEg8aCowNG-14" value="&lt;font color=&quot;#ffb570&quot;&gt;us-east-1-1ab&lt;/font&gt;" style="fillColor=none;strokeColor=#FFB570;dashed=1;verticalAlign=top;fontStyle=0;fontColor=#147EBA;whiteSpace=wrap;html=1;rotation=90;" vertex="1" parent="rNb3Nq_eKwGEg8aCowNG-3">

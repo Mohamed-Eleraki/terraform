@@ -26,6 +26,10 @@ resource "aws_db_instance" "rds_postgres_instance" {
   storage_encrypted = true
   multi_az = true
   backup_retention_period = 7
+  auto_minor_version_upgrade = true  # default is true
+  allow_major_version_upgrade = false  # default is false
+  copy_tags_to_snapshot = true
+  delete_automated_backups = true # Auto delete backups after RDS deleted | default is true
   blue_green_update {  # ensuring the Updates applies by AWS applies via Blue/Green deployment
     enabled = true
   }
