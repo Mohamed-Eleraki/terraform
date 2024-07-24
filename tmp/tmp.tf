@@ -1,5 +1,5 @@
 provider "aws" {
-  region = "us-east-1"
+  region  = "us-east-1"
   profile = "eraki"
 }
 
@@ -25,11 +25,11 @@ resource "aws_iam_role" "lambda_iam_role" {
 }
 
 resource "aws_lambda_function" "fetchVpc_function" {
-  function_name = "fetchVpc_function"
-  filename = "${path.module}/lambda.zip"
-  source_code_hash = filebase64("${path.moudle}/lambda.zip")
-  handler = "lambda.lambda_handler"
-  runtime = "python3.11"
-  timeout = 120
-  role = aws_iam_role.lambda_iam_role.arn
+  function_name    = "fetchVpc_function"
+  filename         = "${path.module}/lambda.zip"
+  source_code_hash = filebase64("${path.module}/lambda.zip")
+  handler          = "lambda.lambda_handler"
+  runtime          = "python3.11"
+  timeout          = 120
+  role             = aws_iam_role.lambda_iam_role.arn
 }
