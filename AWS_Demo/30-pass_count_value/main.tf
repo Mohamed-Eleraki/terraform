@@ -12,7 +12,11 @@ resource "random_id" "id" {
   byte_length = 8
 }
 
-output "assciate_public_ip_value" {
+output "assciated_public_ip_value" {
   value = [for instance in aws_instance.ec2_01 : instance.associate_public_ip_address]
   #value = aws_instance.ec2_01.associate_public_ip_address
+}
+
+output "accociated_public_ip_value_02" {  # the same result as above
+  value = aws_instance.ec2_01[*].associate_public_ip_address
 }
