@@ -1,0 +1,18 @@
+# Create a New Workspace
+terraform workspace new <workspace_name>
+
+# List Workspaces
+terraform workspace list
+
+# Show Current Workspace
+terraform workspace show
+
+# Select a Workspace
+terraform workspace select <workspace_name>
+
+# Delete a Workspace
+terraform workspace delete <workspace_name>
+
+# Rename a Workspace
+terraform workspace rename <old_name> <new_name>
+
