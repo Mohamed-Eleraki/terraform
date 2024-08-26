@@ -13,3 +13,4 @@ resource "aws_vpc" "vpc_01" {
 output "vpc_tags" {
   value = aws_vpc.vpc_01.tags_all
 }
+#
