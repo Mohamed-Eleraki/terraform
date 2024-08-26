@@ -8,12 +8,7 @@ terraform {
       project = "Workspace_configs"
     }
 
-    # how to specify a project name here?
-
   }
-
-
-
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -27,5 +22,5 @@ terraform {
 
 provider "aws" {
   region  = "us-east-1"
-  profile = "eraki"
+  #profile = "eraki"
 }
