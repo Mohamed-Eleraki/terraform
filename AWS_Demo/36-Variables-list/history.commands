@@ -1,0 +1,29 @@
+terraform console
+  151  terraform init
+  152  terraform init -upgrade
+  153  terraform plan -out "tfplan"
+  154  terraform show -json tfplan | jq > tfplan.json 
+  155  ls -lathr
+  156  jq '.variables' tfplan.json 
+  157  jq '.variables.public_subnet_list' tfplan.json 
+  158  terrafrom show tfplan
+  159  terraform show tfplan
+  160  terraform apply  tfplan
+  161  terraform plan -out tfplan-1.0
+  162  terraform show tfplan-1.0 | jq > tfplan-1.0.json
+  163  terraform show -json tfplan-1.0 | jq > tfplan-1.0.json
+  164  terraform apply tfplan-1.0
+  165  terraform show -json tfplan-1.0 | jq > tfplan-1.0.json
+  166  terraform apply tfplan-1.0
+  167  terraform show -json tfplan-2.0 | jq > tfplan-2.json
+  168  terraform plan -out tfplan-3.0
+  169  terraform show -json tfplan-3.0 | jq > tfplan-3.0.json
+  170  terraform apply tfplan-3.0
+  171  terraform show tfplan-3.0
+  172  terrafrom plan -destroy -out tfplan-destroy-3.0
+  173  terraform plan -destroy -out tfplan-destroy-3.0
+  174  terraform show tfplan-destroy-3.0 
+  175  terraform show -json tfplan-destroy-3.0 | jq > tfplan-destroy-3.0.json
+  176  terraform destroy tfplan-destroy-3.0
+  177  terraform apply tfplan-destroy-3.0
+  178  history
