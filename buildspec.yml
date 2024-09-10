@@ -22,7 +22,9 @@ phases:
       # - command
   build:
     commands:
-      - 
+      - echo ##########################
+      - echo $timeout
+      - echo ##########################
   #post_build:
     #commands:
       # - command
