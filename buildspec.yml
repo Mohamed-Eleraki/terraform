@@ -24,6 +24,7 @@ phases:
     commands:
       - echo ##########################
       - echo $CUSTOM_VAR1
+      - echo $timeout
       - echo ##########################
   #post_build:
     #commands:
