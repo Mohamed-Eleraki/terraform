@@ -24,7 +24,7 @@ phases:
     commands:
       - echo ##########################
       - echo $CUSTOM_VAR1
-      - echo $timeout
+      - echo $timeout  # will not work, pipeline variable level
       - echo ##########################
   #post_build:
     #commands:
