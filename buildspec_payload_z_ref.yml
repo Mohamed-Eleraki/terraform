@@ -41,3 +41,4 @@ phases:
     on-failure: CONTINUE   
     commands:
       - echo terraform execution completed on `date` 
+      
