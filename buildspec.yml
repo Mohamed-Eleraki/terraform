@@ -1,42 +1,63 @@
-version: 0.2
-#env:
-  #variables:
-     # key: "value"
-     # key: "value"
-  #parameter-store:
-     # key: "value"
-     # key: "value"
-  #git-credential-helper: yes
+version: 2.0
+env:
+  variables: 
+    TERRAFORM_VERSION: "1.5.6"
+    #key: "value"
+#
+#  parameter-store:
+#    key: "value"
+#
+#  secrets-manager:
+#    key: "value"
+
 phases:
   install:
-    #If you use the Ubuntu standard image 2.0 or later, you must specify runtime-versions.
-    #If you specify runtime-versions and use an image other than Ubuntu standard image 2.0, the build fails.
     runtime-versions:
-      nodejs: 12
-    #commands:
-      # - command
-      # - command
-  #pre_build:
-    #commands:
-      # - command
-      # - command
+      python: 3.12
+    
+    on-failuer: ABORT
+
+    commands: |
+      echo   "Installing terraform"
+      echo ##########################################
+      yum install -u wget unzip
+      yum clean all
+      tf_version=$TERRAFORM_VERSION
+      wget https://releases.hashicorp.com/terraform/"$TERRAFORM_VERSION"/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      chmod 775 terraform
+      mv terraform /usr/local/bin/
+      terraform --version
+      rm terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      ls -al /usr/local/bin/terraform
+      echo ##########################################
+      echo
+
+  pre_build:
+    on-failure: ABORT
+    commands: |
+      echo 
+      echo ##########################################
+      echo terraform execution started on `date`
+      echo ##########################################
+      echo
+
   build:
-    commands:
-      - echo ##########################
-      - echo $CUSTOM_VAR1
-      - echo $timeout  # will not work, pipeline variable level
-      - echo ##########################
-  #post_build:
-    #commands:
-      # - command
-      # - command
-artifacts:
-  files:
-     - '*'
-    # - location
-  name: $(date +%Y-%m-%d)
-  #discard-paths: yes
-  #base-directory: location
-#cache:
-  #paths:
-    # - paths
+    on-failure: ABORT
+    commands: |
+      echo ##########################################
+      echo terraform execution started on `date`
+      cd $CODEBUILD_SRC_DIR/AWS_Demo/36-Variables-list"
+      ls -lathr
+      terraform init
+      terraform plan -out tfplan
+      echo ##########################################
+      echo
+
+  post_build:
+    on-failure: CONTINUE
+    commands: |
+      echo ##########################################
+      echo terraform execution completed on `date`
+      echo ##########################################
+      echo
