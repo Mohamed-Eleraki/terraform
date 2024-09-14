@@ -35,9 +35,11 @@ phases:
       if [ "$STAGE_TYPE" = "plan" ]; then
         echo "Filter on Plan stage";
         echo terraform plan started on `date`
-        pwd
+        pwd;
+        ls -lathr;
         cd "CODEBUILD_SRC_DIR/AWS_Demo/37-build-test-pipeline";
-        pwd
+        pwd;
+        ls -lathr;
         terraform init;
         terraform validate;
         terraform plan -out tfplan;
