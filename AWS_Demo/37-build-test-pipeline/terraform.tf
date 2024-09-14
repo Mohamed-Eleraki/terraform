@@ -14,8 +14,10 @@ terraform {
   }
 }
 
-
 provider "aws" {
-  region = "us-east-1"
-  #profile = "eraki"
+  region = "us-east-1" # Change this to your desired region
+  assume_role {
+    role_arn     = "arn:aws:iam::891377122503:role/service-role/AWSCodePipelineServiceRole-us-east-1-eraki_pipeline_us1_tagtrig"
+    session_name = "TerraformSession"
+  }
 }
