@@ -51,9 +51,11 @@ phases:
       if  [ "$STAGE_TYPE" = "apply" ]; then
         echo  "Filter on Apply stage";
         echo terraform execution started on `date`;
-        pwd
+        pwd;
+        ls -lathr;
         cd "$CODEBUILD_SRC_DIR/AWS_Demo/37-build-test-pipeline";
-        pwd
+        pwd;
+        ls -lathr;
         terraform apply tfplan;
       else
         echo "No Apply stage";
