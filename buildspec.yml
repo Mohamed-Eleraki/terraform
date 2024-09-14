@@ -40,7 +40,7 @@ phases:
       echo ##########################################
       echo terraform execution started on `date`
       echo ##########################################
-      echo
+      echo include only plan and initializeation.
 
   build:
     on-failure: ABORT
@@ -52,7 +52,7 @@ phases:
       terraform init
       terraform plan -out tfplan
       echo ##########################################
-      echo
+      echo include only build commands no plan
 
   post_build:
     on-failure: CONTINUE
@@ -60,4 +60,4 @@ phases:
       echo ##########################################
       echo terraform execution completed on `date`
       echo ##########################################
-      echo
+      echo print lock file content
