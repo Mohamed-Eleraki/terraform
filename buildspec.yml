@@ -20,7 +20,7 @@ phases:
     commands: |
       echo   "Installing terraform"
       echo ##########################################
-      yum install -u wget unzip
+      yum install -y wget unzip
       yum clean all
       tf_version=$TERRAFORM_VERSION
       wget https://releases.hashicorp.com/terraform/"$TERRAFORM_VERSION"/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
