@@ -1,0 +1,43 @@
+version: 0.2
+env:
+  variables:
+    TERRAFORM_VERSION: "1.5.6"
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.11
+    on-failure: ABORT       
+    commands:
+      - yum install -y wget unzip
+      - yum clean all
+      - tf_version=$TERRAFORM_VERSION
+      - wget https://releases.hashicorp.com/terraform/"$TERRAFORM_VERSION"/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      - unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      - chmod +x terraform
+      - mv terraform /usr/local/bin/
+      - terraform --version
+  pre_build:
+    on-failure: ABORT     
+    commands:
+      - echo terraform execution started on `date`  
+  build:
+    on-failure: ABORT
+    commands:
+      - |
+        if [ "$BUILD_COMMAND" = "plan" ]; then
+          echo "Running terraform plan";
+          cd "$CODEBUILD_SRC_DIR/Infra";
+          terraform init;
+          terraform plan;
+        else
+          echo "Running terraform apply";
+          cd "$CODEBUILD_SRC_DIR/Infra";
+          terraform init;
+          terraform apply --auto-approve;
+        fi
+
+  post_build:
+    on-failure: CONTINUE   
+    commands:
+      - echo terraform execution completed on `date` 
