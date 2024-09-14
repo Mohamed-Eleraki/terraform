@@ -16,10 +16,8 @@ phases:
       python: 3.12
     
     on-failuer: ABORT
-
     commands: |
-      echo   "Installing terraform"
-      echo ##########################################
+      echo "Installing terraform"
       yum install -y wget unzip
       yum clean all
       tf_version=$TERRAFORM_VERSION
@@ -30,34 +28,58 @@ phases:
       terraform --version
       rm terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
       ls -al /usr/local/bin/terraform
-      echo ##########################################
-      echo
 
   pre_build:
     on-failure: ABORT
     commands: |
-      echo 
-      echo ##########################################
-      echo terraform execution started on `date`
-      echo ##########################################
-      echo include only plan and initializeation.
+      if ["STAGE_TYPE" = "plan"]; then
+        echo "Filter on Plan stage";
+        echo terraform plan started on `date`
+        cd "CODEBUILD_SRC_DIR/AWS_Demo/37-build-test-pipeline";
+        terraform init;
+        terraform validate;
+        terraform plan -out tfplan;
+      fi
 
   build:
     on-failure: ABORT
     commands: |
-      echo ##########################################
-      echo terraform execution started on `date`
-      cd "$CODEBUILD_SRC_DIR/AWS_Demo/36-Variables-list"
-      ls -lathr
-      terraform init
-      terraform plan -out tfplan
-      echo ##########################################
-      echo include only build commands no plan
+      if  ["STAGE_TYPE" = "apply"]; then
+        echo  "Filter on Apply stage";
+        echo terraform execution started on `date`;
+        cd "$CODEBUILD_SRC_DIR/37-build-test-pipeline";
+        terraform apply tfplan;
+      fi
 
   post_build:
     on-failure: CONTINUE
     commands: |
-      echo ##########################################
-      echo terraform execution completed on `date`
-      echo ##########################################
-      echo print lock file content
+      echo "Fetching provisioning details"
+      terraform show -json tfplan > tfplan.json
+      yum install -y jq
+      echo "print out terrafrom version and json format version"
+      jq '.terraform_version, .format_version' tfplan.json
+      echo ""
+      echo "print out provider config"
+      jq '.configuration.provider_config' tfplan.json
+      echo ""
+      echo "print out resource config"
+      jq '.configuration.root_module.resources' tfplan.json
+      echo ""
+      echo "print out outputs"
+      jq '.outputs' tfplan.json
+      echo ""
+      echo "print out resource changes"
+      jq '.resource_changes' tfplan.json
+      echo ""
+      echo "print out resource config"
+      jq '.configuration.root_module.resources' tfplan.json
+      echo ""
+      echo "print out provider config"
+      jq '.configuration.provider_config' tfplan.json
+      echo ""
+      echo "print out provider config"
+      jq '.configuration.provider_config' tfplan.json
+      echo ""
+      echo "print out lock file configuration"
+      jq '.configuration.lock_version' tfplan.json
