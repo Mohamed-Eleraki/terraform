@@ -21,7 +21,7 @@ jobs:
             sudo apt-get install -y wget unzip
             sudo apt clean
             tf_version=$TERRAFORM_VERSION
-            wget https://releases.hashicorp.com/terraform/"$TERRAFORM_VERSION"/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+            wget "https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip"
             unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
             sudo chmod 775 terraform
             sudo mv terraform /usr/local/bin/
