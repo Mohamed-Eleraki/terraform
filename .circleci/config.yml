@@ -95,9 +95,9 @@ workflows:
   Provision-infrastructure-workflow:
     jobs:
       - Installation
-      - Terraform-Plan
+      - Terraform-Plan:
           requires: [Installation]
-      - manual-approval
+      - manual-approval:
           requires: [Terraform-Plan]
-      - Terraform-Apply
+      - Terraform-Apply:
           requires: [manual-approval]
