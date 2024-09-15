@@ -44,7 +44,7 @@ jobs:
           name: "Mark Installation as Complete"
           command: echo "Installation finished successfully!"
 
- Terraform-Plan:
+  Terraform-Plan:
     machine:
         image: ubuntu-2204:2024.05.1
         resource_class: arm.large
