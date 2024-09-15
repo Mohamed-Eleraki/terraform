@@ -1,8 +1,6 @@
 version: 2.1
 jobs:
   Installation:
-    #docker:
-    #  - image: cimg/aws:2024.03
     machine:
       image: ubuntu-2204:2024.05.1
       resource_class: arm.medium
@@ -11,8 +9,8 @@ jobs:
       TERRAFORM_VERSION: "1.9.5"
 
     steps:
-      # Checkout the code as the first step.
       - checkout
+
       - run:
           name: "Check AWS CLI version"
           command: "aws --version"
@@ -20,23 +18,27 @@ jobs:
       - run:
           name: "Install Terraform"
           command: |
-            echo "Installing terraform"
+            set -e  # Exit the script if any command fails
+            echo "Installing Terraform..."
             sudo apt-get install -y wget unzip
             sudo apt clean
             tf_version=$TERRAFORM_VERSION
-            wget "https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip"
+            wget "https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
             unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
             sudo chmod 775 terraform
             sudo mv terraform /usr/local/bin/
+            echo "Terraform version installed:"
             terraform --version
             rm terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
             ls -al /usr/local/bin/terraform
-            
+            echo "Terraform installation completed."
 
-# Orchestrate jobs using workflows
-# See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
+      # Optional step to show success message and avoid loop
+      - run:
+          name: "Mark Installation as Complete"
+          command: echo "Installation finished successfully!"
+
 workflows:
-  Provision-infrastructure-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  Provision-infrastructure-workflow:
     jobs:
       - Installation
