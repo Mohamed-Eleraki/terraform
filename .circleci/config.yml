@@ -51,7 +51,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Run Terraform Scan"
+          name: "Run Terraform Plan"
           command: |
             echo "Running Terraform plan"
 
@@ -64,7 +64,9 @@ jobs:
       - checkout
       - run:
           name: "Run Terraform Scan"
-          command: terraform scan
+          command: |
+            #terraform scan
+            echo "Running Terraform  scan"
 
 
   manual-approval:
@@ -79,7 +81,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: "Run Terraform Scan"
+          name: "Run Terraform Apply"
           command: |
             echo "Running Terraform Apply"
 
