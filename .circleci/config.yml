@@ -55,7 +55,7 @@ jobs:
           command: |
             echo "Running Terraform plan"
 
-  scan:
+  Terraform-scan:
     machine:
       image: ubuntu-2204:2024.05.1
       resource_class: arm.large
@@ -88,6 +88,8 @@ workflows:
     jobs:
       - Installation
       - Terraform-Plan:
+          requires: [Installation]
+      - Terraform-scan:
           requires: [Installation]
       - manual-approval:
           requires: [Terraform-Plan]
