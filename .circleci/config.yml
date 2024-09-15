@@ -10,7 +10,6 @@ jobs:
 
     steps:
       - checkout
-
       - run:
           name: "Check AWS CLI version"
           command: "aws --version"
@@ -49,12 +48,12 @@ jobs:
         image: ubuntu-2204:2024.05.1
         resource_class: arm.large
 
-      steps:
-        - checkout
-        - run:
-          - name: "Run Terraform Scan"
-          - command: |
-              echo "Running Terraform plan"
+    steps:
+      - checkout
+      - run:
+        - name: "Run Terraform Scan"
+        - command: |
+            echo "Running Terraform plan"
 
   scan:
     machine:
@@ -73,13 +72,12 @@ jobs:
         image: ubuntu-2204:2024.05.1
         resource_class: arm.large
 
-      steps:
-        - checkout
-        - run:
-          - name: "Run Terraform Scan"
-          - command: |
-              echo "Running manual approval step"
-
+    steps:
+      - checkout
+      - run:
+        - name: "Run Terraform Scan"
+        - command: |
+            echo "Running manual approval step"
 
   Terraform-Apply:
     machine:
