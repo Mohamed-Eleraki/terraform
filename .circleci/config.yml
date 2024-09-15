@@ -51,8 +51,8 @@ jobs:
     steps:
       - checkout
       - run:
-        - name: "Run Terraform Scan"
-        - command: |
+          name: "Run Terraform Scan"
+          command: |
             echo "Running Terraform plan"
 
   scan:
@@ -63,21 +63,13 @@ jobs:
     steps:
       - checkout
       - run:
-        - name: "Run Terraform Scan"
-        - command: terraform scan
+          name: "Run Terraform Scan"
+          command: terraform scan
 
 
   manual-approval:
-    machine:
-        image: ubuntu-2204:2024.05.1
-        resource_class: arm.large
+    type: approval
 
-    steps:
-      - checkout
-      - run:
-        - name: "Run Terraform Scan"
-        - command: |
-            echo "Running manual approval step"
 
   Terraform-Apply:
     machine:
@@ -87,8 +79,8 @@ jobs:
     steps:
       - checkout
       - run:
-        - name: "Run Terraform Scan"
-        - command: |
+          name: "Run Terraform Scan"
+          command: |
             echo "Running Terraform Apply"
 
 workflows:
