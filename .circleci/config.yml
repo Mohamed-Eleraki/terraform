@@ -81,15 +81,15 @@ jobs:
 
   Terraform-Apply:
     machine:
-        image: ubuntu-2204:2024.05.1
-        resource_class: arm.large
+      image: ubuntu-2204:2024.05.1
+      resource_class: arm.large
 
-      steps:
-        - checkout
-        - run:
-          - name: "Run Terraform Scan"
-          - command: |
-              echo "Running Terraform Apply"
+    steps:
+      - checkout
+      - run:
+        - name: "Run Terraform Scan"
+        - command: |
+            echo "Running Terraform Apply"
 
 workflows:
   Provision-infrastructure-workflow:
