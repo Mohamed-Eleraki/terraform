@@ -19,7 +19,7 @@ jobs:
           command: |
             echo "Installing terraform"
             sudo apt-get install -y wget unzip
-            sudo apt-get clean all
+            sudo apt clean
             tf_version=$TERRAFORM_VERSION
             wget https://releases.hashicorp.com/terraform/"$TERRAFORM_VERSION"/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
             unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
