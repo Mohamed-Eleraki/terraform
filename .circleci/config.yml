@@ -44,7 +44,62 @@ jobs:
           name: "Mark Installation as Complete"
           command: echo "Installation finished successfully!"
 
+  Terraform-Plan:
+    machine:
+        image: ubuntu-2204:2024.05.1
+        resource_class: arm.large
+
+      steps:
+        - checkout
+        - run:
+          - name: "Run Terraform Scan"
+          - command: |
+              echo "Running Terraform plan"
+
+  scan:
+    machine:
+      image: ubuntu-2204:2024.05.1
+      resource_class: arm.large
+
+    steps:
+      - checkout
+      - run:
+        - name: "Run Terraform Scan"
+        - command: terraform scan
+
+
+  manual-approval:
+    machine:
+        image: ubuntu-2204:2024.05.1
+        resource_class: arm.large
+
+      steps:
+        - checkout
+        - run:
+          - name: "Run Terraform Scan"
+          - command: |
+              echo "Running manual approval step"
+
+
+  Terraform-Apply:
+    machine:
+        image: ubuntu-2204:2024.05.1
+        resource_class: arm.large
+
+      steps:
+        - checkout
+        - run:
+          - name: "Run Terraform Scan"
+          - command: |
+              echo "Running Terraform Apply"
+
 workflows:
   Provision-infrastructure-workflow:
     jobs:
       - Installation
+      - Terraform-Plan
+          requires: [Installation]
+      - manual-approval
+          requires: [Terraform-Plan]
+      - Terraform-Apply
+          requires: [manual-approval]
