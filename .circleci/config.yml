@@ -1,9 +1,12 @@
 version: 2.1
 jobs:
   Installation:
-    docker:
-      - image: cimg/aws:2024.03
-
+    #docker:
+    #  - image: cimg/aws:2024.03
+    machine:
+      - image: ubuntu-2204:2024.05.1
+      resource_class: arm.medium
+      
     environment:
       TERRAFORM_VERSION: "1.9.5"
 
