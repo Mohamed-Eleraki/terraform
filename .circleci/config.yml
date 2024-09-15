@@ -18,21 +18,25 @@ jobs:
       - run:
           name: "Install Terraform"
           command: |
-            set -e  # Exit the script if any command fails
-            echo "Installing Terraform..."
-            sudo apt-get install -y wget unzip
-            sudo apt clean
-            tf_version=$TERRAFORM_VERSION
-            wget "https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
-            unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
-            sudo chmod 775 terraform
-            sudo mv terraform /usr/local/bin/
-            echo "Terraform version installed:"
-            terraform --version
-            rm terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
-            ls -al /usr/local/bin/terraform
-            echo "Terraform installation completed."
+            #set -e  # Exit the script if any command fails
+            #echo "Installing Terraform..."
+            #sudo apt-get install -y wget unzip
+            #sudo apt clean
+            #tf_version=$TERRAFORM_VERSION
+            #wget "https://releases.hashicorp.com/terraform/$TERRAFORM_VERSION/terraform_${TERRAFORM_VERSION}_linux_amd64.zip"
+            #unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+            #sudo chmod 775 terraform
+            #sudo mv terraform /usr/local/bin/
+            #echo "Terraform version installed:"
+            #terraform --version
+            #rm terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+            #ls -al /usr/local/bin/terraform
+            #echo "Terraform installation completed."
 
+            wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+            echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+            sudo apt update && sudo apt install terraform
+            
       # Optional step to show success message and avoid loop
       - run:
           name: "Mark Installation as Complete"
