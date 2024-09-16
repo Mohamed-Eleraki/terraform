@@ -53,7 +53,7 @@ jobs:
       - run:
           name: "Run Terraform Plan"
           command: |
-            echo "Running Terraform plan"
+            echo "Running Terraform plan" workspace_directory/tfplan
 
       - persist_to_workspace:
           root: workspace_directory
