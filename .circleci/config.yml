@@ -77,7 +77,9 @@ jobs:
       - attach_workspace:
           at: /tmp/workspace_directory
 
-      - run: cat /tmp/workspace_directory/tfplan
+      - run: |
+          ls -lathr /tmp/workspace_directory
+          cat /tmp/workspace_directory/tfplan
 
 
   manual-approval:
