@@ -55,6 +55,11 @@ jobs:
           command: |
             echo "Running Terraform plan"
 
+      - persist_to_workspace:
+          root: workspace_directory
+          paths:
+            - "tfplan"
+
   Terraform-scan:
     machine:
       image: ubuntu-2204:2024.05.1
@@ -67,6 +72,11 @@ jobs:
           command: |
             #terraform scan
             echo "Running Terraform  scan"
+
+      - attach_workspace:
+          at: /tmp/workspace_directory
+
+      - run: cat /tmp/workspace_directory/tfplan
 
 
   manual-approval:
@@ -85,6 +95,10 @@ jobs:
           command: |
             echo "Running Terraform Apply"
 
+      - attach_workspace:
+          at: /tmp/workspace_directory
+
+      - run: cat /tmp/workspace_directory/tfplan
 workflows:
   Provision-infrastructure-workflow:
     jobs:
@@ -94,6 +108,7 @@ workflows:
       - Terraform-scan:
           requires: [Installation]
       - manual-approval:
+          type: approval
           requires: [Terraform-Plan, Terraform-scan]
       - Terraform-Apply:
           requires: [manual-approval]
