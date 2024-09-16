@@ -59,7 +59,7 @@ jobs:
       - persist_to_workspace:
           root: workspace_directory
           paths:
-            - "tfplan"
+            - "workspace_directory/tfplan"
 
   Terraform-scan:
     machine:
