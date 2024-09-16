@@ -94,7 +94,7 @@ workflows:
       - Terraform-scan:
           requires: [Installation]
       - manual-approval:
-          requires: [Terraform-Plan]
+          requires: [Terraform-Plan, Terraform-scan]
       - Terraform-Apply:
           requires: [manual-approval]
           
