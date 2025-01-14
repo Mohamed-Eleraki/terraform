@@ -1,0 +1,1 @@
+Follow-up this Article: https://eraki.hashnode.dev/aws-codepipeline-automate-iac-provisioning
