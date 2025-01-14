@@ -104,5 +104,6 @@ phases:
       echo "print out provider config"
       jq '.configuration.provider_config' tfplan.json
       echo ""
+      echo ""
       echo "print out lock file configuration"
       jq '.configuration.lock_version' tfplan.json
