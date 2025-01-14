@@ -28,12 +28,17 @@ phases:
       terraform --version
       rm terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
       ls -al /usr/local/bin/terraform
+      echo "Installing Checkov components"
+      yum install python -y
+      pip install --no-input checkov
+      pip install --upgrade --no-input urllib3
+      yum install jq -y
 
   pre_build:
     on-failure: ABORT
     commands: |
       if [ "$STAGE_TYPE" = "plan" ]; then
-        echo "Filter on Plan stage";
+        echo "Filter on Plan action";
         echo terraform plan started on `date`
         #cd "CODEBUILD_SRC_DIR/AWS_Demo/37-build-test-pipeline";
         cd "AWS_Demo/37-build-test-pipeline";
@@ -41,8 +46,17 @@ phases:
         terraform init;
         terraform validate;
         terraform plan -out tfplan;
+      elif [ "$STAGE_TYPE" = "SCAN" ]; then
+        echo "Filter on Scan action"
+        echo "terraform scan started on `date`"
+        cd "AWS_Demo/37-build-test-pipeline";
+        ls -lathr;
+        terraform init;
+        terraform plan -out tfplan;
+        terraform show -json tfplan | jq '.' > tfplan.json;
+        checkov -f tfplan.json;
       else
-        echo "No Plan stage";
+        echo "No Plan, or Scan stages";
       fi
 
   build:
