@@ -6,7 +6,8 @@ resource "google_compute_instance_template" "eraki_inst_temp_uscentral1a_test_10
     region = "us-central1"
 
     disk {
-        source_image = "debian-cloud/debian-11"
+        # source_image = "debian-cloud/debian-11"
+        source_image = "eraki-cus-image-uscentral1a-test-1001"  # my custom image created.
         auto_delete = true
         boot = true
         disk_size_gb = 10
