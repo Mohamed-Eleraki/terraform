@@ -1,7 +1,6 @@
 version: 2.1
-
-orbs:
-  aws-cli: circleci/aws-cli@4.1.2
+# orbs:
+#   aws-cli: circleci/aws-cli@4.1.2
 
 jobs:
   aws-build:
