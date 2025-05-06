@@ -1,0 +1,2 @@
+# Configuration of app engine for this spcific application
+runtime: python39
