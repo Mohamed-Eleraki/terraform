@@ -1,0 +1,13 @@
+{
+    "bindings": [
+      {
+        "name": "blobTrigger",
+        "type": "blobTrigger",
+        "direction": "in",
+        "path": "source_dir1/source_subdir1/{*blobPath}",
+        "connection": "SRC_STORAGE_CONNECTION"
+      }
+    ],
+    "scriptFile": "run.ps1"
+  }
+  
