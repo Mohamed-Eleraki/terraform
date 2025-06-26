@@ -25,9 +25,6 @@ terraform {
       name    = "Dev_workspace"
       project = "Workspace_configs"
     }
-
-    # project = "Workspace_configs"
-
   }
 }
 
