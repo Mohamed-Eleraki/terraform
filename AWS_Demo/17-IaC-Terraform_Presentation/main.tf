@@ -32,8 +32,8 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-east-1"
-  profile = "eraki"
+  region = "us-east-1"
+  # profile = "eraki"
 }
 
 # Deploy a VPC 1
