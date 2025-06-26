@@ -1,18 +1,33 @@
 # Configure aws provider
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
+# terraform {
+#   required_providers {
+#     aws = {
+#       source  = "hashicorp/aws"
+#       version = "~> 5.0"
+#     }
+#   }
 
-  backend "s3" {
-    bucket       = "erakiterrafromstatefiles"
-    key          = "15-lambda_layers/lambda_layer.tfstate"
-    region       = "us-east-1"
-    profile      = "eraki"
-    use_lockfile = true
+#   backend "s3" {
+#     bucket       = "erakiterrafromstatefiles"
+#     key          = "15-lambda_layers/lambda_layer.tfstate"
+#     region       = "us-east-1"
+#     profile      = "eraki"
+#     use_lockfile = true
+#   }
+# }
+
+terraform {
+
+  cloud {
+    organization = "HCP-remote-organization"
+
+    workspaces {
+      name    = "Dev_workspace"
+      project = "Workspace_configs"
+    }
+
+    # project = "Workspace_configs"
+
   }
 }
 
