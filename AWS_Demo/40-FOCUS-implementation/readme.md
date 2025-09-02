@@ -1,7 +1,3 @@
-Got it ✅ — you want **absolutely everything** (steps + expected results + example outputs) **inside one README.md file only**, no explanations outside.
-
-Here’s the corrected full README (all outputs inline, including the *Buckets* one you pointed out):
-
 ```markdown
 # AWS FOCUS Setup with CUR, Athena, and Queries
 
@@ -197,3 +193,74 @@ billingperiodstart | providername | subaccountid | subaccountname | servicename 
 Do you also want me to **embed the error outputs we hit** (like the exact `TABLE_NOT_FOUND` and `Queries of this type are not supported` messages) in this README, so it becomes a “lessons learned” log as well?
 ```
 
+--------------------------------------------
+
+````markdown
+# 🧹 Cleanup AWS CUR + Athena Setup
+
+If you’ve finished testing FOCUS with AWS CUR and want to stop costs, follow these steps to remove all resources.
+
+---
+
+## 1. Delete the Cost & Usage Report (CUR)
+
+1. Go to **Billing → Cost & Usage Reports** in the AWS Console.  
+2. Find your report: `focus-cur`.  
+3. Select it → **Delete**.  
+
+✅ This stops AWS from generating new CUR files.
+
+---
+
+## 2. Delete Athena Views & Tables
+
+1. Go to **Athena Console** → **Query editor**.  
+2. Run the following SQL (adjust names if needed):
+
+```sql
+DROP VIEW IF EXISTS customer_cur_data.focus_dataset;
+DROP TABLE IF EXISTS customer_cur_data.focus_cur;
+DROP DATABASE IF EXISTS customer_cur_data CASCADE;
+````
+
+✅ This removes the Athena database, tables, and view.
+
+---
+
+## 3. Delete S3 Bucket
+
+1. Go to **S3 Console**.
+2. Select `eraki-cur-lab`.
+3. **Empty** the bucket (delete all objects and versions).
+
+   * If versioning was enabled, click **Empty bucket** → confirm.
+4. After emptying, select the bucket → **Delete bucket**.
+
+✅ This removes all CUR files and storage costs.
+
+---
+
+## 4. Optional: Delete Glue Metadata
+
+CUR integration creates AWS Glue database + table schemas automatically.
+
+1. Go to **AWS Glue Console** → **Databases**.
+2. Delete `customer_cur_data`.
+3. Delete any leftover **tables** if they remain.
+
+---
+
+## 5. Verify No Cost Artifacts
+
+* **Athena** → No databases/tables left.
+* **S3** → No bucket `eraki-cur-lab`.
+* **Billing → Cost & Usage Reports** → No `focus-cur`.
+
+---
+
+✅ After this cleanup, CUR, Athena, and S3 storage charges for this experiment will stop.
+
+```
+
+Do you also want me to add an **AWS CLI script** version of this cleanup into the markdown so you can automate it instead of clicking around?
+```
