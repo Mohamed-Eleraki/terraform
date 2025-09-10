@@ -1,0 +1,92 @@
+trigger:
+  - main
+
+pool:
+  vmImage: "ubuntu-latest" # or 'rhel-latest' if you want RedHat
+
+variables:
+  TERRAFORM_VERSION: "1.5.6"
+  BUILD_COMMAND: "plan" # change to 'apply' if needed
+
+stages:
+  - stage: Terraform
+    displayName: "Terraform Deployment"
+    jobs:
+      - job: TerraformJob
+        displayName: "Run Terraform"
+        steps:
+          # Install dependencies
+          - task: Bash@3
+            displayName: "Install Terraform"
+            inputs:
+              targetType: inline
+              script: |
+                sudo apt-get update -y
+                sudo apt-get install -y wget unzip
+                wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+                unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
+                sudo mv terraform /usr/local/bin/
+                terraform --version
+
+          - task: Bash@3
+            displayName: "Terraform Initialization"
+            inputs:
+              targetType: inline
+              script: |
+                cd Infra
+                terraform init
+
+          - task: Bash@3
+            displayName: "Terraform Plan"
+            inputs:
+              targetType: inline
+              script: |
+                cd Infra
+                terraform validate
+                terraform plan -out tfplan
+                terraform show -json tfplan | jq '.' > tfplan.json
+
+          - task: Bash@3
+            displayName: "Terraform Apply"
+            inputs:
+              targetType: inline
+              script: |
+                cd Infra
+                terraform apply tfplan.json
+
+          - task: Bash@3
+            displayName: "Post Build"
+            inputs:
+              targetType: inline
+              script: |
+                cd Infra
+                echo "Fetching provisioning details"
+                terraform show -json tfplan > tfplan.json
+                apt install -y jq
+                echo "print out terrafrom version and json format version"
+                jq '.terraform_version, .format_version' tfplan.json
+                echo ""
+                echo "print out provider config"
+                jq '.configuration.provider_config' tfplan.json
+                echo ""
+                echo "print out resource config"
+                jq '.configuration.root_module.resources' tfplan.json
+                echo ""
+                echo "print out outputs"
+                jq '.outputs' tfplan.json
+                echo ""
+                echo "print out resource changes"
+                jq '.resource_changes' tfplan.json
+                echo ""
+                echo "print out resource config"
+                jq '.configuration.root_module.resources' tfplan.json
+                echo ""
+                echo "print out provider config"
+                jq '.configuration.provider_config' tfplan.json
+                echo ""
+                echo "print out provider config"
+                jq '.configuration.provider_config' tfplan.json
+                echo ""
+                echo ""
+                echo "print out lock file configuration"
+                jq '.configuration.lock_version' tfplan.json
