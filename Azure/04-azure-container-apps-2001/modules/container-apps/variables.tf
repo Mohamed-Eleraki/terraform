@@ -10,12 +10,16 @@ variable "container_registry_short" {
   description = "a shortcut of container registry"
   type        = string
 }
-variable "region_shot" {
+variable "region_short" {
   description = "region short name"
   type        = string
 }
 variable "capps_application_name" {
   description = "application app name"
+  type        = string
+}
+variable "resource_group_name" {
+  description = "resouce group name"
   type        = string
 }
 

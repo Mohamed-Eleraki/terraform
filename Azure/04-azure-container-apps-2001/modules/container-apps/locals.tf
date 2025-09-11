@@ -1,5 +1,5 @@
 locals {
-  all_tage = merge(
+  all_tags = merge(
     {
       Region         = var.region
       Automation     = "True"
