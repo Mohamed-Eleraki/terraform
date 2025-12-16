@@ -1,0 +1,98 @@
+trigger: none  # Disable automatic triggers
+
+# Define parameters for different environments
+parameters:
+  - name: environmentName
+    type: string
+    default: "dev"
+    values:
+      - dev
+      - pre-prod
+      - prod
+
+# Fetch the infrastructure repository
+resources:
+  repositories:
+    - repository: environment_infra
+      type: git
+      name: environment_infra
+      ref: main
+
+# Set environment-specific variables
+variables:
+  - ${{ if eq(parameters.environmentName, 'dev') }}:
+      - group: 'eraki-dev-env-vars'
+      - name: az_srv_principal
+        value: 'srvcon-dev-IacPipeline-we-01'
+  # Follow the same pattern for other environments
+
+stages:
+  - stage: UpdatePipelineName
+    displayName: "Update PipelineName - ${{ parameters.environmentName }}"
+    jobs:
+      - template: template/update-pipeline-name-template.yml # calling the update pipeline name template
+        parameters:
+          environmentName: ${{ parameters.environmentName }}
+
+  - stage: Plan
+    displayName: "Plan - ${{ parameters.environmentName }}"
+    dependsOn: UpdatePipelineName
+    jobs:
+    - deployment: TerraformPlan
+      displayName:  "Terraform Plan Deployment - ${{ parameters.environmentName }}"
+      environment: ${{ parameters.environmentName }}
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: environment_infra
+            - template: template/terraform-installation-template.yml  # calling the tf installation template
+              parameters:
+                environmentName: ${{ parameters.environmentName }}
+                az_srv_principal: $(az_srv_principal)
+            - template: template/terraform-plan-template.yml  # calling the plan template
+              parameters:
+                environmentName: ${{ parameters.environmentName }}
+                az_srv_principal: $(az_srv_principal)
+
+  - stage: Apply
+    displayName: "Apply - ${{ parameters.environmentName }}"
+    dependsOn: Plan
+    jobs:
+    - deployment: TerraformApply
+      displayName:  "Terraform Apply Deployment - ${{ parameters.environmentName }}"
+      environment: ${{ parameters.environmentName }}
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: environment_infra
+            - template: template/terraform-installation-template.yml  # calling the tf installation template
+              parameters:
+                environmentName: ${{ parameters.environmentName }}
+                az_srv_principal: $(az_srv_principal)
+            - template: template/terraform-apply-template.yml  # calling the plan template
+              parameters:
+                environmentName: ${{ parameters.environmentName }}
+                az_srv_principal: $(az_srv_principal)
+
+  - stage: Destroy
+    displayName: "Destroy - ${{ parameters.environmentName }}"
+    dependsOn: Plan
+    jobs:
+    - deployment: TerraformDestroy
+      displayName:  "Terraform Destroy Deployment - ${{ parameters.environmentName }}"
+      environment: ${{ parameters.environmentName }}
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - checkout: environment_infra
+            - template: template/terraform-installation-template.yml  # calling the tf installation template
+              parameters:
+                environmentName: ${{ parameters.environmentName }}
+                az_srv_principal: $(az_srv_principal)            
+            - template: template/terraform-destroy-template.yml  # calling the plan template
+              parameters:
+                environmentName: ${{ parameters.environmentName }}
+                az_srv_principal: $(az_srv_principal)

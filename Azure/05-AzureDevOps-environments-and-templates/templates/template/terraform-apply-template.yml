@@ -1,0 +1,35 @@
+# This is a reusable template for Terraform apply
+parameters:
+  - name: environmentName
+    type: string
+    default: "dev"
+  - name: az_srv_principal
+    type: string
+
+steps:
+- template: terraform-init-template.yml
+  parameters:
+    environmentName: ${{ parameters.environmentName }}
+    az_srv_principal: ${{ parameters.az_srv_principal }}
+
+- task: AzureCLI@2
+  displayName: 'Terraform Apply - ${{parameters.environmentName}}'
+  inputs:
+    azureSubscription: '${{ parameters.az_srv_principal }}'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo ""
+      echo "##############################################"
+
+      echo "Initializing Terraform applyning for environment: ${{ parameters.environmentName }}"
+      cd Infra/terraform/${{ parameters.environmentName }}
+      terraform apply --var-file=${{ parameters.environmentName }}-terraform.tfvars -auto-approve
+
+      if [ $? -ne 0 ]; then
+        echo "ERROR: Terraform Apply initialization failed"
+        exit 1
+      fi
+
+      echo "Terraform Apply initialization completed successfully"
+      echo "##############################################"

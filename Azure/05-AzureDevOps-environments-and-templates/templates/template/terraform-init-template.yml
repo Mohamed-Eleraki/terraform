@@ -1,0 +1,30 @@
+parameters:
+  - name: environmentName
+    type: string
+    default: "dev"
+  - name: az_srv_principal
+    type: string
+
+steps:
+- task: AzureCLI@2
+  displayName: 'Terraform init - ${{parameters.environmentName}}'
+  inputs:
+    azureSubscription: '${{ parameters.az_srv_principal }}'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo ""
+      echo "##############################################"
+
+      echo "Initializing Terraform for environment: ${{ parameters.environmentName }}"
+      cd Infra/terraform/${{ parameters.environmentName }}
+      terraform init
+
+      if [ $? -ne 0 ]; then
+        echo "ERROR: Terraform initialization failed"
+        exit 1
+      fi
+
+      echo "Terraform initialization completed successfully"
+      echo "##############################################"
+

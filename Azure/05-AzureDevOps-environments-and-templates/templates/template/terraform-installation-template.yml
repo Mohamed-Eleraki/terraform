@@ -1,0 +1,34 @@
+parameters:
+  - name: environmentName
+    type: string
+    default: "dev"
+  - name: az_srv_principal
+    type: string
+  - name: TERRAFORM_VERSION
+    type: string
+    default: '1.14.2'
+
+steps:
+- task: AzureCLI@2
+  displayName: 'Terraform Installation - ${{ parameters.environmentName }}'
+  env:
+    TERRAFORM_VERSION: ${{ parameters.TERRAFORM_VERSION }}
+  inputs:
+    azureSubscription: '${{ parameters.az_srv_principal }}'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo ""
+      echo "##############################################"
+      echo "Installing terraform"
+      yum install -y wget unzip
+      yum clean all
+      tf_version=$TERRAFORM_VERSION
+      wget https://releases.hashicorp.com/terraform/"$TERRAFORM_VERSION"/terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      unzip terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      chmod 775 terraform
+      mv terraform /usr/local/bin/
+      terraform --version
+      rm terraform_"$TERRAFORM_VERSION"_linux_amd64.zip
+      ls -al /usr/local/bin/terraform
+      echo "##############################################"

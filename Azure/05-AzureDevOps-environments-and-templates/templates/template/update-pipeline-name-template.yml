@@ -1,0 +1,14 @@
+parameters:
+  - name: environmentName
+    type: string
+    default: "dev"
+    
+jobs:
+  - job: UpdateNameJob
+    displayName: "Set Dynamic Name"
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+      - script: |
+          echo "##vso[build.updatebuildnumber]IaC Deployment - ${{ parameters.environmentName }}"
+        displayName: "Update Pipeline Name"

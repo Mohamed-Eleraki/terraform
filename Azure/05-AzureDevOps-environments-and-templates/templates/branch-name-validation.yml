@@ -1,0 +1,50 @@
+# This pipeline runs ONLY during Pull Requests
+trigger: none
+
+pr:
+  branches:
+    include:
+      - "*"   # Validate PRs from all branches
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - bash: |
+      echo "🔍 Validating PR source branch..."
+      echo "System.PullRequest.SourceBranch = $(System.PullRequest.SourceBranch)"
+
+      # Extract branch name (strip 'refs/heads/')
+      BRANCH="$(System.PullRequest.SourceBranch)"
+      BRANCH="${BRANCH#refs/heads/}"
+
+      echo "Detected branch name: $BRANCH"
+      
+      # -------------------------------------------------------
+      # Allowed patterns:
+      #   1. feat|fix|chore|refactor|docs|test/<workItemID>-description
+      #      - Work item = 5–7 digits
+      #      - Description = lowercase letters, numbers, dot, underscore, hyphen
+      #      Example: feat/332200-add_new_pipeline
+      #
+      #   2. release/x.y.z
+      # -------------------------------------------------------
+      REGEX="^(feat|fix|chore|refactor|docs|test)/[0-9]{5,7}-[a-z0-9._-]+$|^release/[0-9]+\.[0-9]+\.[0-9]+$"
+
+      if [[ ! "$BRANCH" =~ $REGEX ]]; then
+        echo "Invalid branch name: '$BRANCH'"
+        echo ""
+        echo "Allowed formats:"
+        echo "  ✔ feat|fix|chore|refactor|docs|test/<workItemID>-description"
+        echo "  ✔ release/x.y.z"
+        echo ""
+        echo "Examples:"
+        echo "  ✔ feat/332200-add_new_pipeline"
+        echo "  ✔ fix/551234-update_payment"
+        echo "  ✔ release/1.2.3"
+        echo ""
+        exit 1
+      fi
+
+      echo "Branch name valid."
+    displayName: "Validate PR branch name"

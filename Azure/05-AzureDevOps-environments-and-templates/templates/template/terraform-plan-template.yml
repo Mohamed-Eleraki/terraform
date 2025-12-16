@@ -1,0 +1,51 @@
+parameters:
+  - name: environmentName
+    type: string
+    default: "dev"
+  - name: az_srv_principal
+    type: string
+
+steps:
+- template: terraform-init-template.yml
+  parameters:
+    environmentName: ${{ parameters.environmentName }}
+    az_srv_principal: ${{ parameters.az_srv_principal }}
+
+- task: AzureCLI@2
+  displayName: 'Terraform plan - ${{ parameters.environmentName }}'
+  inputs:
+    azureSubscription: '${{ parameters.az_srv_principal }}'
+    scriptType: 'bash'
+    scriptLocation: 'inlineScript'
+    inlineScript: |
+      echo ""
+      echo "##############################################"
+
+      cd Infra/terraform/${{ parameters.environmentName }}
+      terraform plan --var-file=${{ parameters.environmentName }}-terraform.tfvars
+
+      if [ $? -ne 0 ]; then
+        echo "ERROR: Terraform Plan initialization failed"
+        exit 1
+      fi
+
+      echo "Terraform Plan initialization completed successfully"
+
+      # Generate JSON plan for analysis
+      # terraform show -json tfplan > tfplan.json || true
+
+      echo "##############################################"
+
+# - task: PublishPipelineArtifact@1
+#   displayName: 'Publish Terraform Plan'
+#   condition: succeeded()
+#   inputs:
+#     targetPath: '$(System.DefaultWorkingDirectory)/Infra/terraform/${{ parameters.environmentName }}/tfplan'
+#     artifact: 'tfplan-${{ parameters.environment }}'
+
+# - task: PublishPipelineArtifact@1
+#   displayName: 'Publish Terraform Plan JSON'
+#   condition: succeeded()
+#   inputs:
+#     targetPath: '$(System.DefaultWorkingDirectory)/Infra/terraform/${{ parameters.environmentName }}/tfplan.json'
+#     artifact: 'tfplan-json-${{ parameters.environment }}'
