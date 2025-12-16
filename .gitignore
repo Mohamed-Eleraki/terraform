@@ -2,8 +2,8 @@
 *state*
 
 # ignore providers, and source binary
-.terraform/
-terraform
+# .terraform/
+# terraform
 .terraform.lock.hcl
 
 # ignore package files
